@@ -82,6 +82,7 @@ export default function Login({ navigation }) {
               fontWeight: "bold",
               fontSize: 18,
             }}
+            onPress={() => navigation.navigate("Home")}
           >
             Login
           </Text>

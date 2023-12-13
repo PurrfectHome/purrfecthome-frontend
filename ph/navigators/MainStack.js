@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
+import TabNav from "./TabNav";
+import Logo from "../components/Logo";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,17 +14,17 @@ export default function MainStack() {
       <StatusBar style="auto" />
       <Stack.Navigator>
         {/* {isLoggedIn ? (
-        <>
+        <> */}
         <Stack.Screen
           name="Main"
           component={TabNav}
           options={() => {
             return {
               headerTitle: () => <Logo />,
-              headerRight: () => <LogoutButton />,
+              //   headerRight: () => <LogoutButton />,
             };
           }}
-        /> */}
+        />
         {/* ) : ( */}
         <>
           <Stack.Screen
