@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
+import Login from "../screens/Login";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,19 +22,19 @@ export default function MainStack() {
             };
           }}
         /> */}
-        {/* ) : (
-          <>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={() => {
-                return {
-                  headerShown: false,
-                };
-              }}
-            />
+        {/* ) : ( */}
+        <>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={() => {
+              return {
+                headerShown: false,
+              };
+            }}
+          />
 
-            <Stack.Screen
+          {/* <Stack.Screen
               name="Register"
               component={Register}
               options={() => {
@@ -41,9 +42,9 @@ export default function MainStack() {
                   headerShown: false,
                 };
               }}
-            />
-          </>
-        )} */}
+            /> */}
+        </>
+        {/* )} */}
       </Stack.Navigator>
     </NavigationContainer>
   );
