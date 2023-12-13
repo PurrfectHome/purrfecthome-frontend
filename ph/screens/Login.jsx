@@ -19,19 +19,31 @@ export default function Login({ navigation }) {
           style={{
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 90,
           }}
         >
           <Image
             source={require("../img/logo.png")}
-            style={{ width: 230, height: 230 }}
+            style={{ marginTop: 50, width: 200, height: 200, marginBottom: 0 }}
           />
+          <Text
+            style={{
+              marginTop: 10,
+              fontSize: 30,
+              color: "#8596BE",
+              fontWeight: "bold",
+            }}
+          >
+            LOGIN
+          </Text>
         </View>
         <View
           style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 20 }}
         >
           <View style={styles.icon}>
-            <Image source={require("../img/cat.png")} />
+            <Image
+              style={{ width: 29, height: 26 }}
+              source={require("../img/cat.png")}
+            />
           </View>
 
           <TextInput
@@ -45,7 +57,10 @@ export default function Login({ navigation }) {
           style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 20 }}
         >
           <View style={styles.icon}>
-            <Image source={require("../img/Lock.png")} />
+            <Image
+              style={{ width: 29, height: 26 }}
+              source={require("../img/Lock.png")}
+            />
           </View>
 
           <TextInput
@@ -65,25 +80,46 @@ export default function Login({ navigation }) {
               color: "white",
               textAlign: "center",
               fontWeight: "bold",
+              fontSize: 18,
             }}
           >
-            LOGIN
+            Login
           </Text>
           {/* )} */}
         </TouchableOpacity>
         <View
-          style={{ alignItems: "center", marginTop: 20, paddingBottom: 30 }}
+          style={{
+            alignItems: "center",
+            marginTop: 20,
+            paddingBottom: 10,
+            flexDirection: "row",
+          }}
         >
-          <Text style={{ marginBottom: 10 }}>Don't have an account? </Text>
-          <TouchableOpacity
-          //   onPress={() => navigation.navigate("Register")}
-          >
+          <Text style={{ marginStart: 70 }}>Don't have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
             <Text
-              style={{ fontWeight: "bold", fontSize: 16, color: "#8596BE" }}
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                color: "#8596BE",
+                marginLeft: 5,
+              }}
             >
               Register
             </Text>
           </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: 5,
+          }}
+        >
+          <Text>or</Text>
+          <Image
+            source={require("../img/goo.png")}
+            style={{ marginTop: 20, width: 300, height: 40 }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -99,6 +135,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     elevation: 2,
     paddingLeft: 10,
+    width: 287,
+    height: 51,
   },
   icon: {
     justifyContent: "center",
@@ -116,5 +154,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     borderRadius: 10,
     elevation: 2,
+    width: 300,
+    height: 51,
   },
 });
