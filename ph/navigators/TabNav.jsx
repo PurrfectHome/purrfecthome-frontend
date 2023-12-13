@@ -25,8 +25,9 @@ export default function TabNav() {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "darkgreen",
-        tabBarInactiveTintColor: "seagreen",
+        tabBarActiveTintColor: "#DC5B93",
+        tabBarInactiveTintColor: "#DC5B93",
+        tabBarStyle: {backgroundColor: '#F3F7FF'}
       })}
     >
       <Tab.Screen
