@@ -3,19 +3,21 @@ import tw from "twrnc"
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import CarouselImage from "../components/carousel";
+import ModalComponent from "../components/modal";
 
 export default function DetailPost({ navigation }) {
   const [more, setMore] = useState(false)
   const originalString = 'Ini adalah kucing yang penuh dengan kelembutan, siap memberikan kehangatan melalui belaian lembutnya. Dengan mata yang penuh kecerdasan dan keingintahuan yang tak terbatas, dia siap untuk menjadi teman setia dalam petualangan dan membagikan kasih sayangnya kepada yang menerimanya dalam keluarga baru.';
-  const substring = originalString.substring(0, 120);
+  const substring = originalString.substring(0, 150);
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: '#DBE4FA' }}>
+        
         <View>
           <CarouselImage />
           <View>
             <View style={tw`mx-5 mt-5 flex-row justify-between`}>
-              <View style={tw`flex-row gap-3`}>
+              <View style={tw`flex-row gap-3 items-center`}>
                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
                   Olla
                 </Text>
@@ -26,13 +28,16 @@ export default function DetailPost({ navigation }) {
               </View>
             </View>
             <View style={tw`mx-5 mt-5 flex-row justify-between`}>
-              <View style={tw`gap-3 justify-center items-center`}>
+              <View style={tw`gap-2 justify-center items-center`}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                   Breed
                 </Text>
-                <Text>
-                  Persia
-                </Text>
+                <View style={tw`flex-row gap-1 items-center`}>
+                  <Text>
+                    Persia
+                  </Text>
+                  <ModalComponent/>
+                </View>
               </View>
               <View style={{ borderWidth: 0.5, opacity: 0.2 }}>
               </View>
@@ -91,7 +96,7 @@ export default function DetailPost({ navigation }) {
             <View style={tw`mx-5 mt-5`}>
               <View style={tw`gap-2`}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                  Dexcription
+                  Description
                 </Text>
                 <TouchableOpacity onPress={() => { !more ? setMore(true) : setMore(false) }}>
                   <Text>{
@@ -100,9 +105,6 @@ export default function DetailPost({ navigation }) {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-          <View>
-
           </View>
         </View>
       </ScrollView>
