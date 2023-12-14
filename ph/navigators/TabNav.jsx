@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "../screens/Home";
 import AddPost from "../screens/AddPost";
 import Login from "../screens/Login";
+import Inbox from "../screens/Inbox";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,6 +20,8 @@ export default function TabNav() {
           } else if (route.name === "Add") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Login") {
+            iconName = focused ? "add-circle" : "add-circle-outline";
+          } else if (route.name === "Inbox") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           }
 
@@ -50,6 +53,15 @@ export default function TabNav() {
       <Tab.Screen
         name="Login"
         component={Login}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      <Tab.Screen
+        name="Inbox"
+        component={Inbox}
         options={() => {
           return {
             headerShown: false,
