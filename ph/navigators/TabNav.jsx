@@ -9,6 +9,8 @@ import DetailPost from "../screens/DetailPost";
 import ChatRoom from "../screens/ChatRoom";
 import Profile from "../screens/Profile";
 import AdoptableCat from "../screens/AdoptableList";
+import Logout from "../components/Logout";
+import Logo from "../components/Logo";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,8 +29,6 @@ export default function TabNav() {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Inbox") {
             iconName = focused ? "add-circle" : "add-circle-outline";
-          } else if (route.name === "Detail") {
-            iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Adoptable") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Profile") {
@@ -44,11 +44,22 @@ export default function TabNav() {
       })}
     >
       <Tab.Screen
+        name="Login"
+        component={Login}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      <Tab.Screen
         name="Home"
         component={Home}
         options={() => {
           return {
-            headerShown: false,
+            headerLeft: () => <Logo />,
+            headerTitle: "",
+            headerStyle: { backgroundColor: "#B0C3F0" },
           };
         }}
       />
@@ -61,32 +72,15 @@ export default function TabNav() {
           };
         }}
       />
-      <Tab.Screen
-        name="Login"
-        component={Login}
-        options={() => {
-          return {
-            headerShown: false,
-          };
-        }}
-      />
-      <Tab.Screen
-        // name="Inbox"
-        // component={Inbox}
-        name="Detail"
-        component={DetailPost}
-        options={() => {
-          return {
-            headerShown: false,
-          };
-        }}
-      />
+
       <Tab.Screen
         name="Inbox"
         component={Inbox}
         options={() => {
           return {
-            headerShown: false,
+            headerLeft: () => <Logo />,
+            headerTitle: "",
+            headerStyle: { backgroundColor: "#B0C3F0" },
           };
         }}
       />
@@ -95,7 +89,9 @@ export default function TabNav() {
         component={AdoptableCat}
         options={() => {
           return {
-            headerShown: false,
+            headerLeft: () => <Logo />,
+            headerTitle: "",
+            headerStyle: { backgroundColor: "#B0C3F0" },
           };
         }}
       />

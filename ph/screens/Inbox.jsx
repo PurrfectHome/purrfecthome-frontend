@@ -96,7 +96,7 @@ export default function Inbox({ navigation }) {
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Caca da Breeder</Text>
-              <Text style={{ color: "#B59BFF", fontSize: 10 }}>
+              <Text style={{ color: "#8596BE", fontSize: 10 }}>
                 Hello, I would like to adopt Daisy...
               </Text>
             </View>

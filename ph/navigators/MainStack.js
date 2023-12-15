@@ -7,6 +7,8 @@ import TabNav from "./TabNav";
 import Logo from "../components/Logo";
 import ChatRoom from "../screens/ChatRoom";
 import ChatProfile from "../components/ChatProfile";
+import DetailPost from "../screens/DetailPost";
+import Logout from "../components/Logout";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +24,10 @@ export default function MainStack() {
           component={TabNav}
           options={() => {
             return {
-              headerTitle: () => <Logo />,
-              headerStyle: { backgroundColor: "#B0C3F0" },
-              //   headerRight: () => <LogoutButton />,
+              // headerTitle: () => <Logo />,
+              // headerStyle: { backgroundColor: "#B0C3F0" },
+              // headerRight: () => <Logout />,
+              headerShown: false,
             };
           }}
         />
@@ -34,6 +37,17 @@ export default function MainStack() {
           options={() => {
             return {
               headerTitle: () => <ChatProfile />,
+              headerStyle: { backgroundColor: "#B0C3F0" },
+              //   headerRight: () => <LogoutButton />,
+            };
+          }}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={DetailPost}
+          options={() => {
+            return {
+              headerTitle: () => <Logo />,
               headerStyle: { backgroundColor: "#B0C3F0" },
               //   headerRight: () => <LogoutButton />,
             };

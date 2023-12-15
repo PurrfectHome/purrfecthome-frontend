@@ -67,6 +67,7 @@ export default function ChatRoom({ navigation }) {
               }}
             />
             <TouchableOpacity
+              onPress={() => navigation.navigate("ChatRoom")}
               style={{
                 justifyContent: "center",
                 alignItems: "center",
