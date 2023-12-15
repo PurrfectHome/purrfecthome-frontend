@@ -7,6 +7,7 @@ import Login from "../screens/Login";
 import Inbox from "../screens/Inbox";
 import DetailPost from "../screens/DetailPost";
 import ChatRoom from "../screens/ChatRoom";
+import Profile from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
 

@@ -5,6 +5,8 @@ import Login from "../screens/Login";
 import Register from "../screens/Register";
 import TabNav from "./TabNav";
 import Logo from "../components/Logo";
+import ChatRoom from "../screens/ChatRoom";
+import ChatProfile from "../components/ChatProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,18 @@ export default function MainStack() {
           options={() => {
             return {
               headerTitle: () => <Logo />,
+              headerStyle: { backgroundColor: "#B0C3F0" },
+              //   headerRight: () => <LogoutButton />,
+            };
+          }}
+        />
+        <Stack.Screen
+          name="ChatRoom"
+          component={ChatRoom}
+          options={() => {
+            return {
+              headerTitle: () => <ChatProfile />,
+              headerStyle: { backgroundColor: "#B0C3F0" },
               //   headerRight: () => <LogoutButton />,
             };
           }}

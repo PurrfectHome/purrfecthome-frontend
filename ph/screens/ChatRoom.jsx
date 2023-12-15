@@ -15,46 +15,6 @@ export default function ChatRoom({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: "#F3F7FF" }}>
       {/* HEADER */}
-      <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: "#B0C3F0",
-          paddingTop: 10,
-          paddingBottom: 10,
-          alignItems: "center",
-        }}
-      >
-        {/* BACK BUTTON */}
-        <TouchableOpacity
-          style={{ alignSelf: "center", paddingHorizontal: 10 }}
-        >
-          <FontAwesome name="angle-left" size={24} color="black" />
-        </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            flex: 1,
-            paddingHorizontal: 10,
-          }}
-        >
-          <TouchableOpacity style={{ flexDirection: "row", flex: 4 }}>
-            <Image
-              source={require("../img/catie.jpeg")}
-              style={{ height: 40, width: 40, borderRadius: 32.5 }}
-            />
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingHorizontal: 10,
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>Caca da Breeder</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
       {/* CONVO HERE */}
       <ChatList />
       {/* CHAT INPUT START HERE! */}
@@ -62,7 +22,6 @@ export default function ChatRoom({ navigation }) {
         style={{
           justifyContent: "center",
           backgroundColor: "#F3F7FF",
-          // position: "absolute",
         }}
       >
         <View
@@ -84,10 +43,8 @@ export default function ChatRoom({ navigation }) {
               paddingVertical: 10,
               borderRadius: 55,
               alignItems: "center",
-              // justifyContent: "space-between",
             }}
           >
-            {/* emo button */}
             <TouchableOpacity
               style={{
                 justifyContent: "center",
@@ -99,7 +56,7 @@ export default function ChatRoom({ navigation }) {
             </TouchableOpacity>
             <TextInput
               multiline
-              placeholder="Type something..."
+              placeholder="Type Message..."
               style={{
                 backgroundColor: "transparent",
                 paddingLeft: 20,
