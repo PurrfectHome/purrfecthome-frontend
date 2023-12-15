@@ -48,7 +48,11 @@ export default function MainStack() {
           options={() => {
             return {
               headerTitle: () => <Logo />,
-              headerStyle: { backgroundColor: "#B0C3F0" },
+              headerStyle: {
+                backgroundColor: "#B0C3F0",
+                // justifyContent: "center",
+                // alignItem: "center",
+              },
               //   headerRight: () => <LogoutButton />,
             };
           }}

@@ -1,5 +1,5 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import tw from "twrnc"
+import tw from "twrnc";
 import CardHome from "../components/CardHome";
 import SelectDropdown from "react-native-select-dropdown";
 
@@ -19,40 +19,41 @@ export default function Home({ navigation }) {
     "Exotic Shorthair",
     "Ragamuffin",
     "Burmese",
-    "Russian Blue", 
-  "Indonesian Domestic"
+    "Russian Blue",
+    "Indonesian Domestic",
   ];
 
   return (
-    <ScrollView style={[tw`flex-1 p-5`, { backgroundColor: 'white' }]}>
+    <ScrollView style={[tw`flex-1 p-5`, { backgroundColor: "white" }]}>
       <View style={tw`justify-center items-center mb-5`}>
         <SelectDropdown
           buttonStyle={{
             width: 170,
             height: 40,
             elevation: 5,
-            backgroundColor: '#F3F7FF',
+            backgroundColor: "#F3F7FF",
             paddingLeft: 10,
             borderRadius: 10,
-            borderWidth: 0.5
+            borderWidth: 0.5,
           }}
           data={breeds}
           defaultButtonText="breed"
           dropdownStyle={{
             backgroundColor: "white",
             borderRadius: 10,
-            height: 170
+            height: 170,
           }}
           dropdownOverlayColor="transparent"
         />
       </View>
       <View style={tw`flex-row flex-wrap justify-center gap-5`}>
-        <CardHome />
-        <CardHome />
-        <CardHome />
-        <CardHome />
-        <CardHome />
-        <CardHome />
+        <CardHome navigation={navigation} />
+        <CardHome navigation={navigation} />
+        <CardHome navigation={navigation} />
+        <CardHome navigation={navigation} />
+        <CardHome navigation={navigation} />
+        <CardHome navigation={navigation} />
+        <CardHome navigation={navigation} />
       </View>
     </ScrollView>
   );
