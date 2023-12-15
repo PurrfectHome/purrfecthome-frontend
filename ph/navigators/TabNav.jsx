@@ -31,6 +31,8 @@ export default function TabNav() {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Adoptable") {
             iconName = focused ? "add-circle" : "add-circle-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "add-circle" : "add-circle-outline";
           }
 
           // You can return any component that you like here!
@@ -91,6 +93,15 @@ export default function TabNav() {
       <Tab.Screen
         name="Adoptable"
         component={AdoptableCat}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
         options={() => {
           return {
             headerShown: false,
