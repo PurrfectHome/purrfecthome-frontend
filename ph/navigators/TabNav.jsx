@@ -4,7 +4,11 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "../screens/Home";
 import AddPost from "../screens/AddPost";
 import Login from "../screens/Login";
+<<<<<<< HEAD
 import Inbox from "../screens/Inbox";
+=======
+import DetailPost from "../screens/DetailPost";
+>>>>>>> 387b1623138aed3b66dd18865e9240eca67d202d
 
 const Tab = createBottomTabNavigator();
 
@@ -61,8 +65,13 @@ export default function TabNav() {
         }}
       />
       <Tab.Screen
+<<<<<<< HEAD
         name="Inbox"
         component={Inbox}
+=======
+        name="Detail"
+        component={DetailPost}
+>>>>>>> 387b1623138aed3b66dd18865e9240eca67d202d
         options={() => {
           return {
             headerShown: false,
