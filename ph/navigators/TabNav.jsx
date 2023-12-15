@@ -7,6 +7,7 @@ import Login from "../screens/Login";
 import Inbox from "../screens/Inbox";
 import DetailPost from "../screens/DetailPost";
 import ChatRoom from "../screens/ChatRoom";
+import AdoptableCat from "../screens/AdoptableList";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,8 @@ export default function TabNav() {
           } else if (route.name === "Inbox") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Detail") {
+            iconName = focused ? "add-circle" : "add-circle-outline";
+          } else if (route.name === "Adoptable") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           }
 
@@ -78,6 +81,15 @@ export default function TabNav() {
       <Tab.Screen
         name="Inbox"
         component={Inbox}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      <Tab.Screen
+        name="Adoptable"
+        component={AdoptableCat}
         options={() => {
           return {
             headerShown: false,
