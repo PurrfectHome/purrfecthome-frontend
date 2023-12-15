@@ -5,6 +5,7 @@ import Home from "../screens/Home";
 import AddPost from "../screens/AddPost";
 import Login from "../screens/Login";
 import Inbox from "../screens/Inbox";
+import ChatRoom from "../screens/ChatRoom";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +31,7 @@ export default function TabNav() {
         },
         tabBarActiveTintColor: "#DC5B93",
         tabBarInactiveTintColor: "#DC5B93",
-        tabBarStyle: {backgroundColor: '#F3F7FF'}
+        tabBarStyle: { backgroundColor: "#F3F7FF" },
       })}
     >
       <Tab.Screen
