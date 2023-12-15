@@ -4,11 +4,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "../screens/Home";
 import AddPost from "../screens/AddPost";
 import Login from "../screens/Login";
-<<<<<<< HEAD
 import Inbox from "../screens/Inbox";
-=======
 import DetailPost from "../screens/DetailPost";
->>>>>>> 387b1623138aed3b66dd18865e9240eca67d202d
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +24,8 @@ export default function TabNav() {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Inbox") {
             iconName = focused ? "add-circle" : "add-circle-outline";
+          } else if (route.name === "Detail") {
+            iconName = focused ? "add-circle" : "add-circle-outline";
           }
 
           // You can return any component that you like here!
@@ -34,7 +33,7 @@ export default function TabNav() {
         },
         tabBarActiveTintColor: "#DC5B93",
         tabBarInactiveTintColor: "#DC5B93",
-        tabBarStyle: {backgroundColor: '#F3F7FF'}
+        tabBarStyle: { backgroundColor: "#F3F7FF" },
       })}
     >
       <Tab.Screen
@@ -65,13 +64,19 @@ export default function TabNav() {
         }}
       />
       <Tab.Screen
-<<<<<<< HEAD
-        name="Inbox"
-        component={Inbox}
-=======
+        // name="Inbox"
+        // component={Inbox}
         name="Detail"
         component={DetailPost}
->>>>>>> 387b1623138aed3b66dd18865e9240eca67d202d
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      <Tab.Screen
+        name="Inbox"
+        component={Inbox}
         options={() => {
           return {
             headerShown: false,
