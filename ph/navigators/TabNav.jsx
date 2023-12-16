@@ -32,10 +32,6 @@ export default function TabNav() {
           } else if (route.name === "Profile") {
             iconName = focused ? "person" : "person-outline";
           }
-          // LOGIN
-          else if (route.name === "Login") {
-            iconName = focused ? "add-circle" : "add-circle-outline";
-          }
 
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -95,16 +91,6 @@ export default function TabNav() {
       <Tab.Screen
         name="Profile"
         component={Profile}
-        options={() => {
-          return {
-            headerShown: false,
-          };
-        }}
-      />
-      {/* LOGIN */}
-      <Tab.Screen
-        name="Login"
-        component={Login}
         options={() => {
           return {
             headerShown: false,

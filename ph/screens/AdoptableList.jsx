@@ -15,7 +15,8 @@ export default function AdoptableCat({ navigation }) {
             </View>
             <View style={tw`flex-row justify-between flex-1 my-3`}>
               <View>
-                <View style={tw`flex-row gap-2 items-center`}>
+                <View style={tw`flex-row gap-1 items-center`}>
+
                   <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
                     Olla
                   </Text>
@@ -23,16 +24,25 @@ export default function AdoptableCat({ navigation }) {
                 </View>
                 <Text style={{ color: '#92aae2' }}>Himalaya</Text>
                 <View>
+                  <TouchableOpacity style={{ marginTop: 5 }}>
+                    <ModalComponentRelease />
+                  </TouchableOpacity>
 
                 </View>
               </View>
-              <View style={tw`justify-between`}>
+              <View style={tw`justify-between items-end mr-3`}>
                 <View >
                   <Text style={{ opacity: 0.5 }}>15-12-2023</Text>
                 </View>
-                <TouchableOpacity>
-                  <ModalComponentRelease />
-                </TouchableOpacity>
+                <View style={tw`flex-row gap-3 items-center`}>
+                  <TouchableOpacity style={tw`flex-row items-end`}>
+                    <Ionicons name="pencil" size={20} color={'#92aae2'}/>
+                    <Text style={{fontSize: 12, color: '#92aae2'}}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Ionicons name='trash-outline' size={25} color={'red'} />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
@@ -42,27 +52,38 @@ export default function AdoptableCat({ navigation }) {
             </View>
             <View style={tw`flex-row justify-between flex-1 my-3`}>
               <View>
-                <View style={tw`flex-row gap-2 items-center`}>
+                <View style={tw`flex-row gap-1 items-center`}>
+
                   <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-                    Ollie
+                    Olla
                   </Text>
                   <Ionicons name="female" size={25} style={{ color: '#DC5B93' }} />
                 </View>
                 <Text style={{ color: '#92aae2' }}>Himalaya</Text>
                 <View>
+                  <TouchableOpacity style={{ marginTop: 5 }}>
+                    <ModalComponentRelease />
+                  </TouchableOpacity>
 
                 </View>
               </View>
-              <View style={tw`justify-between`}>
-                <View>
+              <View style={tw`justify-between items-end mr-3`}>
+                <View >
                   <Text style={{ opacity: 0.5 }}>15-12-2023</Text>
                 </View>
-                <TouchableOpacity>
-                  <ModalComponentRelease />
-                </TouchableOpacity>
+                <View style={tw`flex-row gap-3 items-center`}>
+                  <TouchableOpacity style={tw`flex-row items-end`}>
+                    <Ionicons name="pencil" size={20} color={'#92aae2'}/>
+                    <Text style={{fontSize: 12, color: '#92aae2'}}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Ionicons name='trash-outline' size={25} color={'red'} />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
+
         </View>
       </ScrollView>
     </>

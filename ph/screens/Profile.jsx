@@ -31,7 +31,16 @@ export default function Profile({ navigation }) {
           <Image source={require("../img/catie.jpeg")} style={styles.pfp} />
         </View>
         <View style={{ marginTop: 80 }}>
-          <Text style={styles.name}>Caca da Breeder</Text>
+          <View style={tw`flex-row justify-center items-center gap-1`}>
+            <Text style={styles.name}>{`Caca da Breeder`}</Text>
+            <View style={tw`flex-row justify-center items-center gap-1`}>
+              <Text>{'('}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Logout />
+              </TouchableOpacity>
+              <Text >{')'}</Text>
+            </View>
+          </View>
           {/* <Text style={{ textAlign: "center" }}>username: caca's</Text> */}
           <View style={styles.email}>
             <MaterialIcons name="email" size={25} color="#B0C3F0" />
@@ -45,7 +54,6 @@ export default function Profile({ navigation }) {
                 caca@mail.com
               </Text>
             </View>
-            <Logout />
           </View>
         </View>
         {/* list post START HERE */}
