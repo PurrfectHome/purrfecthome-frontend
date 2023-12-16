@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import tw from "twrnc";
 import CardHome from "../components/CardHome";
 import SelectDropdown from "react-native-select-dropdown";

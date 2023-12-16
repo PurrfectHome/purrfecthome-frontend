@@ -9,6 +9,7 @@ import ChatRoom from "../screens/ChatRoom";
 import ChatProfile from "../components/ChatProfile";
 import DetailPost from "../screens/DetailPost";
 import Logout from "../components/Logout";
+import AddPost from "../screens/AddPost";
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,16 @@ export default function MainStack() {
               };
             }}
           />
+          <Stack.Screen
+            name="Add"
+            component={AddPost}
+            options={() => {
+              return {
+                headerShown: false,
+              };
+            }}
+          />
+          
         </>
         {/* )} */}
       </Stack.Navigator>

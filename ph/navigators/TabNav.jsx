@@ -3,16 +3,21 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "../screens/Home";
 import AddPost from "../screens/AddPost";
-import Login from "../screens/Login";
 import Inbox from "../screens/Inbox";
-import DetailPost from "../screens/DetailPost";
-import ChatRoom from "../screens/ChatRoom";
 import Profile from "../screens/Profile";
 import AdoptableCat from "../screens/AdoptableList";
-import Logout from "../components/Logout";
 import Logo from "../components/Logo";
+import { TouchableOpacity } from "react-native";
 
 const Tab = createBottomTabNavigator();
+
+const HeaderAdd = ({onPress}) => {
+  return(
+    <TouchableOpacity onPress={onPress} style={{marginRight: 10}}>
+      <Ionicons name='add' size={30} color={'white'}/>
+    </TouchableOpacity>
+  )
+}
 
 export default function TabNav() {
   return (
@@ -45,11 +50,12 @@ export default function TabNav() {
       <Tab.Screen
         name="Home"
         component={Home}
-        options={() => {
+        options={({navigation}) => {
           return {
             headerLeft: () => <Logo />,
             headerTitle: "",
             headerStyle: { backgroundColor: "#B0C3F0" },
+            headerRight: () => <HeaderAdd onPress={() => navigation.navigate('Add')}/>
           };
         }}
       />
@@ -66,7 +72,7 @@ export default function TabNav() {
         }}
       />
       {/* ADD */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Add"
         component={AddPost}
         options={() => {
@@ -74,7 +80,7 @@ export default function TabNav() {
             headerShown: false,
           };
         }}
-      />
+      /> */}
       {/* ADOPTABLE */}
       <Tab.Screen
         name="Adoptable"
