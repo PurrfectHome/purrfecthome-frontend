@@ -1,6 +1,7 @@
 import {
   Image,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -15,47 +16,17 @@ export default function Inbox({ navigation }) {
       {/* HEADER */}
       <TouchableOpacity
         onPress={() => navigation.navigate("ChatRoom")}
-        style={{
-          flexDirection: "row",
-          backgroundColor: "transparent", // => here
-          paddingTop: 10,
-          paddingBottom: 10,
-          alignItems: "center",
-          // border here
-          borderTopWidth: 1,
-          borderTopColor: "#B0C3F0",
-          borderBottomWidth: 1,
-          borderBottomColor: "#B0C3F0",
-        }}
+        style={styles.tOp}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            flex: 1,
-            paddingHorizontal: 10,
-          }}
-        >
+        <View style={styles.pfp}>
           <View style={{ flexDirection: "row", flex: 4 }}>
             <Image
               source={require("../img/catie.jpeg")}
               style={{ height: 40, width: 40, borderRadius: 32.5 }}
             />
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingHorizontal: 10,
-              }}
-            >
+            <View style={styles.uname}>
               <Text style={{ fontWeight: "bold" }}>Caca da Breeder</Text>
-              <Text
-                style={{
-                  // color: "#B59BFF",
-                  color: "#8596BE",
-                  fontSize: 10,
-                }}
-              >
+              <Text style={styles.msg}>
                 Hello, I would like to adopt Daisy...
               </Text>
             </View>
@@ -63,40 +34,17 @@ export default function Inbox({ navigation }) {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          backgroundColor: "transparent", // => here
-          paddingTop: 10,
-          paddingBottom: 10,
-          alignItems: "center",
-          // border here
-          borderBottomWidth: 1,
-          borderBottomColor: "#B0C3F0",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            flex: 1,
-            paddingHorizontal: 10,
-          }}
-        >
+      {/* PART KEDUA */}
+      <TouchableOpacity style={styles.tOp}>
+        <View style={styles.pfp}>
           <View style={{ flexDirection: "row", flex: 4 }}>
             <Image
               source={require("../img/catie.jpeg")}
               style={{ height: 40, width: 40, borderRadius: 32.5 }}
             />
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingHorizontal: 10,
-              }}
-            >
+            <View style={styles.uname}>
               <Text style={{ fontWeight: "bold" }}>Caca da Breeder</Text>
-              <Text style={{ color: "#8596BE", fontSize: 10 }}>
+              <Text style={styles.msg}>
                 Hello, I would like to adopt Daisy...
               </Text>
             </View>
@@ -106,3 +54,30 @@ export default function Inbox({ navigation }) {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  tOp: {
+    flexDirection: "row",
+    backgroundColor: "transparent", // => here
+    paddingTop: 10,
+    paddingBottom: 10,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#B0C3F0",
+  },
+  pfp: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  uname: {
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingHorizontal: 10,
+  },
+  msg: {
+    color: "#8596BE",
+    fontSize: 10,
+  },
+});

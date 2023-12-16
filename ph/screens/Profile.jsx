@@ -28,38 +28,12 @@ export default function Profile({ navigation }) {
 
       <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Image
-            source={require("../img/catie.jpeg")}
-            style={{
-              width: 125,
-              height: 125,
-              borderRadius: 150 / 2,
-              borderWidth: 2,
-              borderColor: "#8596BE",
-              position: "absolute",
-              zIndex: 2,
-            }}
-          />
+          <Image source={require("../img/catie.jpeg")} style={styles.pfp} />
         </View>
         <View style={{ marginTop: 80 }}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 18,
-              textAlign: "center",
-            }}
-          >
-            Caca da Breeder
-          </Text>
+          <Text style={styles.name}>Caca da Breeder</Text>
           {/* <Text style={{ textAlign: "center" }}>username: caca's</Text> */}
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 5,
-            }}
-          >
+          <View style={styles.email}>
             <MaterialIcons name="email" size={25} color="#B0C3F0" />
             <View
               style={{
@@ -82,11 +56,9 @@ export default function Profile({ navigation }) {
             style={{
               flex: 1,
               paddingVertical: 15,
-              // backgroundColor: "#DC5B93",
               backgroundColor: more ? "#DC5B93" : "white",
               justifyContent: "center",
               alignItems: "center",
-              // borderRadius: 3,
               elevation: 2,
             }}
             onPress={() => {
@@ -113,7 +85,6 @@ export default function Profile({ navigation }) {
               alignItems: "center",
               borderWidth: 1,
               borderColor: "#DC5B93",
-              // borderRadius: 3,
               elevation: 2,
             }}
             onPress={() => {
@@ -191,14 +162,6 @@ export default function Profile({ navigation }) {
                     style={[tw`w-full h-full`]}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://source.unsplash.com/featured/?cat",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
               </>
             ) : (
               <>
@@ -234,5 +197,25 @@ const styles = StyleSheet.create({
     width: 110,
     textAlign: "center",
     textAlignVertical: "center",
+  },
+  pfp: {
+    width: 125,
+    height: 125,
+    borderRadius: 150 / 2,
+    borderWidth: 2,
+    borderColor: "#8596BE",
+    position: "absolute",
+    zIndex: 2,
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+  },
+  email: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 5,
   },
 });

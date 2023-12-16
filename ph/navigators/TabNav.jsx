@@ -22,16 +22,18 @@ export default function TabNav() {
           let iconName;
 
           if (route.name === "Home") {
-            iconName = focused ? "home" : "home-outline";
+            iconName = focused ? "ios-home" : "ios-home-outline";
+          } else if (route.name === "Inbox") {
+            iconName = focused ? "md-chatbox" : "md-chatbox-outline";
           } else if (route.name === "Add") {
             iconName = focused ? "add-circle" : "add-circle-outline";
-          } else if (route.name === "Login") {
-            iconName = focused ? "add-circle" : "add-circle-outline";
-          } else if (route.name === "Inbox") {
-            iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === "Adoptable") {
-            iconName = focused ? "add-circle" : "add-circle-outline";
+            iconName = focused ? "md-list" : "md-list-outline";
           } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
+          }
+          // LOGIN
+          else if (route.name === "Login") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           }
 
@@ -43,15 +45,7 @@ export default function TabNav() {
         tabBarStyle: { backgroundColor: "#F3F7FF" },
       })}
     >
-      <Tab.Screen
-        name="Login"
-        component={Login}
-        options={() => {
-          return {
-            headerShown: false,
-          };
-        }}
-      />
+      {/* HOME */}
       <Tab.Screen
         name="Home"
         component={Home}
@@ -63,16 +57,7 @@ export default function TabNav() {
           };
         }}
       />
-      <Tab.Screen
-        name="Add"
-        component={AddPost}
-        options={() => {
-          return {
-            headerShown: false,
-          };
-        }}
-      />
-
+      {/* INBOX */}
       <Tab.Screen
         name="Inbox"
         component={Inbox}
@@ -84,6 +69,17 @@ export default function TabNav() {
           };
         }}
       />
+      {/* ADD */}
+      <Tab.Screen
+        name="Add"
+        component={AddPost}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      {/* ADOPTABLE */}
       <Tab.Screen
         name="Adoptable"
         component={AdoptableCat}
@@ -95,9 +91,20 @@ export default function TabNav() {
           };
         }}
       />
+      {/* PROFILE */}
       <Tab.Screen
         name="Profile"
         component={Profile}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+      />
+      {/* LOGIN */}
+      <Tab.Screen
+        name="Login"
+        component={Login}
         options={() => {
           return {
             headerShown: false,

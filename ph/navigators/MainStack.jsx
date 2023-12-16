@@ -24,21 +24,10 @@ export default function MainStack() {
           component={TabNav}
           options={() => {
             return {
+              headerShown: false,
               // headerTitle: () => <Logo />,
               // headerStyle: { backgroundColor: "#B0C3F0" },
               // headerRight: () => <Logout />,
-              headerShown: false,
-            };
-          }}
-        />
-        <Stack.Screen
-          name="ChatRoom"
-          component={ChatRoom}
-          options={() => {
-            return {
-              headerTitle: () => <ChatProfile />,
-              headerStyle: { backgroundColor: "#B0C3F0" },
-              //   headerRight: () => <LogoutButton />,
             };
           }}
         />
@@ -57,6 +46,18 @@ export default function MainStack() {
             };
           }}
         />
+        <Stack.Screen
+          name="ChatRoom"
+          component={ChatRoom}
+          options={() => {
+            return {
+              headerTitle: () => <ChatProfile />,
+              headerStyle: { backgroundColor: "#B0C3F0" },
+              //   headerRight: () => <LogoutButton />,
+            };
+          }}
+        />
+
         {/* ) : ( */}
         <>
           <Stack.Screen
