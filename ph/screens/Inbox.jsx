@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Inbox({ navigation }) {
   return (

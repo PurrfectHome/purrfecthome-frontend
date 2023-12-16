@@ -1,3 +1,4 @@
+import { useContext, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -9,9 +10,50 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { LoginContext } from "../context/LoginContext";
+import { gql, useMutation } from "@apollo/client";
+
+const LOGIN = gql`
+  mutation Mutation($username: String, $password: String) {
+    login(username: $username, password: $password) {
+      accessToken
+    }
+  }
+`;
 
 export default function Login({ navigation }) {
+  const { loginAction } = useContext(LoginContext);
+  const [input, setInput] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [login, { data, loading, error }] = useMutation(LOGIN);
+
+  const handleChange = (name, text) => {
+    console.log(text);
+    setInput({ ...input, [name]: text });
+  };
+
+  const handleLogin = async () => {
+    try {
+      if (loading) return;
+      console.log(input);
+      const { data } = await login({
+        variables: {
+          username: input.username,
+          password: input.password,
+        },
+      });
+      console.log(data);
+      await loginAction("token", data.login.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(data, error, loading);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
@@ -47,10 +89,10 @@ export default function Login({ navigation }) {
           </View>
 
           <TextInput
-            // value={input.username}
+            value={input.username}
             style={styles.textInput}
             placeholder="username"
-            // onChangeText={(text) => handleChange("username", text)}
+            onChangeText={(text) => handleChange("username", text)}
           />
         </View>
         <View
@@ -64,29 +106,19 @@ export default function Login({ navigation }) {
           </View>
 
           <TextInput
-            // value={input.password}
+            value={input.password}
             style={styles.textInput}
             placeholder="password"
-            // onChangeText={(text) => handleChange("password", text)}
+            onChangeText={(text) => handleChange("password", text)}
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity style={styles.logButton}>
-          {/* {loading ? (
-              <ActivityIndicator />
-            ) : ( */}
-          <Text
-            style={{
-              color: "white",
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-            onPress={() => navigation.navigate("Home")}
-          >
-            Login
-          </Text>
-          {/* )} */}
+        <TouchableOpacity style={styles.logButton} onPress={handleLogin}>
+          {loading ? (
+            <ActivityIndicator color="#DC5B93" />
+          ) : (
+            <Text style={styles.loginText}>Login</Text>
+          )}
         </TouchableOpacity>
         <View
           style={{
@@ -98,16 +130,7 @@ export default function Login({ navigation }) {
         >
           <Text style={{ marginStart: 70 }}>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 16,
-                color: "#8596BE",
-                marginLeft: 5,
-              }}
-            >
-              Register
-            </Text>
+            <Text style={styles.regisText}>Register</Text>
           </TouchableOpacity>
         </View>
         <View
@@ -157,5 +180,17 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: 300,
     height: 51,
+  },
+  loginText: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  regisText: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#8596BE",
+    marginLeft: 5,
   },
 });

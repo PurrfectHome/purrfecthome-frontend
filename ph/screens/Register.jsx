@@ -1,4 +1,6 @@
+import { useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
@@ -7,8 +9,61 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { gql, useMutation } from "@apollo/client";
+
+const REGISTER = gql`
+  mutation Mutation(
+    $fullname: String
+    $username: String
+    $email: String
+    $password: String
+  ) {
+    register(
+      fullname: $fullname
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      code
+      message
+    }
+  }
+`;
 
 export default function Register({ navigation }) {
+  const [input, setInput] = useState({
+    fullname: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [register, { data, loading, error }] = useMutation(REGISTER);
+  const handleChange = (name, text) => {
+    console.log(text);
+    setInput({ ...input, [name]: text });
+  };
+
+  const handleRegister = async () => {
+    try {
+      if (loading) return;
+      console.log(input);
+      await register({
+        variables: {
+          fullname: input.fullname,
+          username: input.username,
+          email: input.email,
+          password: input.password,
+        },
+      });
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(data, error, loading);
+
   return (
     <ScrollView
       style={{
@@ -24,10 +79,6 @@ export default function Register({ navigation }) {
           marginBottom: 50,
         }}
       >
-        {/* <Image
-          source={require("../img/logo.png")}
-          style={{ marginTop: 50, width: 200, height: 200, marginBottom: 0 }}
-        /> */}
         <Text
           style={{
             marginTop: 50,
@@ -46,26 +97,18 @@ export default function Register({ navigation }) {
             marginHorizontal: 30,
           }}
         >
-          <View style={styles.icon}>
-            {/* <MaterialIcons name="font-download" size={22} color="black" /> */}
-          </View>
-
           <TextInput
-            //   value={input.name}
+            value={input.fullname}
             style={styles.textInput}
             placeholder="full name"
-            //   onChangeText={(text) => handleChange("name", text)}
+            onChangeText={(text) => handleChange("fullname", text)}
           />
         </View>
         <View
           style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
         >
-          <View style={styles.icon}>
-            {/* <Ionicons name="at-circle" size={22} color="black" /> */}
-          </View>
-
           <TextInput
-            //   value={input.username}
+            value={input.username}
             style={styles.textInput}
             placeholder="username"
             onChangeText={(text) => handleChange("username", text)}
@@ -74,12 +117,8 @@ export default function Register({ navigation }) {
         <View
           style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
         >
-          <View style={styles.icon}>
-            {/* <Ionicons name="mail" size={22} color="black" /> */}
-          </View>
-
           <TextInput
-            //   value={input.email}
+            value={input.email}
             style={styles.textInput}
             placeholder="email"
             onChangeText={(text) => handleChange("email", text)}
@@ -88,34 +127,30 @@ export default function Register({ navigation }) {
         <View
           style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
         >
-          <View style={styles.icon}>
-            {/* <Ionicons name="lock-closed" size={22} color="black" /> */}
-          </View>
-
           <TextInput
-            //   value={input.password}
+            value={input.password}
             style={styles.textInput}
             placeholder="password"
-            //   onChangeText={(text) => handleChange("password", text)}
+            onChangeText={(text) => handleChange("password", text)}
             secureTextEntry={true}
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.regButton}>
-        {/* {loading ? (
-          <ActivityIndicator />
-        ) : ( */}
-        <Text
-          style={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "bold",
-            fontSize: 18,
-          }}
-        >
-          Register
-        </Text>
-        {/* )} */}
+      <TouchableOpacity style={styles.regButton} onPress={handleRegister}>
+        {loading ? (
+          <ActivityIndicator color="#DC5B93" />
+        ) : (
+          <Text
+            style={{
+              color: "white",
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 18,
+            }}
+          >
+            Register
+          </Text>
+        )}
       </TouchableOpacity>
       <View
         style={{
