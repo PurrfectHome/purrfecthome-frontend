@@ -55,39 +55,37 @@ export default function MainStack() {
                 };
               }}
             />
+            <Stack.Screen
+              name="Add"
+              component={AddPost}
+              options={() => {
+                return {
+                  headerShown: false,
+                };
+              }}
+            />
           </>
         ) : (
           <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={() => {
+                return {
+                  headerShown: false,
+                };
+              }}
+            />
 
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={() => {
-              return {
-                headerShown: false,
-              };
-            }}
-          />
-
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={() => {
-              return {
-                headerShown: false,
-              };
-            }}
-          />
-          <Stack.Screen
-            name="Add"
-            component={AddPost}
-            options={() => {
-              return {
-                headerShown: false,
-              };
-            }}
-          />
-
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={() => {
+                return {
+                  headerShown: false,
+                };
+              }}
+            />
           </>
         )}
       </Stack.Navigator>

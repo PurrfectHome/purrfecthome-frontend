@@ -65,6 +65,8 @@ export default function Profile({ navigation }) {
               backgroundColor: more ? "#DC5B93" : "white",
               justifyContent: "center",
               alignItems: "center",
+              borderWidth: 0.25,
+              borderColor: "#DC5B93",
               elevation: 2,
             }}
             onPress={() => {
@@ -89,7 +91,7 @@ export default function Profile({ navigation }) {
               backgroundColor: more ? "white" : "#DC5B93",
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 1,
+              borderWidth: 0.25,
               borderColor: "#DC5B93",
               elevation: 2,
             }}
