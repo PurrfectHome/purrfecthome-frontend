@@ -34,11 +34,9 @@ export default function Profile({ navigation }) {
           <View style={tw`flex-row justify-center items-center gap-1`}>
             <Text style={styles.name}>{`Caca da Breeder`}</Text>
             <View style={tw`flex-row justify-center items-center gap-1`}>
-              <Text>{'('}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Logout />
-              </TouchableOpacity>
-              <Text >{')'}</Text>
+              <Text>{"("}</Text>
+              <Logout />
+              <Text>{")"}</Text>
             </View>
           </View>
           {/* <Text style={{ textAlign: "center" }}>username: caca's</Text> */}

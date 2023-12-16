@@ -9,78 +9,75 @@ import ChatRoom from "../screens/ChatRoom";
 import ChatProfile from "../components/ChatProfile";
 import DetailPost from "../screens/DetailPost";
 import Logout from "../components/Logout";
+import { useContext } from "react";
+import { LoginContext } from "../context/LoginContext";
 
 const Stack = createNativeStackNavigator();
 
 export default function MainStack() {
+  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
       <Stack.Navigator>
-        {/* {isLoggedIn ? (
-        <> */}
-        <Stack.Screen
-          name="Main"
-          component={TabNav}
-          options={() => {
-            return {
-              headerShown: false,
-              // headerTitle: () => <Logo />,
-              // headerStyle: { backgroundColor: "#B0C3F0" },
-              // headerRight: () => <Logout />,
-            };
-          }}
-        />
-        <Stack.Screen
-          name="Detail"
-          component={DetailPost}
-          options={() => {
-            return {
-              headerTitle: () => <Logo />,
-              headerStyle: {
-                backgroundColor: "#B0C3F0",
-                // justifyContent: "center",
-                // alignItem: "center",
-              },
-              //   headerRight: () => <LogoutButton />,
-            };
-          }}
-        />
-        <Stack.Screen
-          name="ChatRoom"
-          component={ChatRoom}
-          options={() => {
-            return {
-              headerTitle: () => <ChatProfile />,
-              headerStyle: { backgroundColor: "#B0C3F0" },
-              //   headerRight: () => <LogoutButton />,
-            };
-          }}
-        />
+        {isLoggedIn ? (
+          <>
+            <Stack.Screen
+              name="Main"
+              component={TabNav}
+              options={() => {
+                return {
+                  headerShown: false,
+                };
+              }}
+            />
+            <Stack.Screen
+              name="Detail"
+              component={DetailPost}
+              options={() => {
+                return {
+                  headerTitle: () => <Logo />,
+                  headerStyle: {
+                    backgroundColor: "#B0C3F0",
+                  },
+                };
+              }}
+            />
+            <Stack.Screen
+              name="ChatRoom"
+              component={ChatRoom}
+              options={() => {
+                return {
+                  headerTitle: () => <ChatProfile />,
+                  headerStyle: { backgroundColor: "#B0C3F0" },
+                };
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={() => {
+                return {
+                  headerShown: false,
+                };
+              }}
+            />
 
-        {/* ) : ( */}
-        <>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={() => {
-              return {
-                headerShown: false,
-              };
-            }}
-          />
-
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={() => {
-              return {
-                headerShown: false,
-              };
-            }}
-          />
-        </>
-        {/* )} */}
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={() => {
+                return {
+                  headerShown: false,
+                };
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
