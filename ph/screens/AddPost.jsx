@@ -60,7 +60,6 @@ export default function AddPost({ navigation }) {
                 tw`h-10 w-full rounded-md`,
                 { backgroundColor: "#eff4ff", paddingHorizontal: "70%" },
               ]}
-              placeholder="name"
               onChangeText={(e) => setImgUrl(e)}
             />
           </View>
@@ -72,7 +71,6 @@ export default function AddPost({ navigation }) {
                 tw`h-10 w-full rounded-md`,
                 { backgroundColor: "#eff4ff", paddingHorizontal: "70%" },
               ]}
-              placeholder="color"
               onChangeText={(e) => setImgUrl(e)}
             />
           </View>
@@ -110,7 +108,7 @@ export default function AddPost({ navigation }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["kitten", "adult", "old"]}
+                data={["baby", "young", "adult", "senior"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
@@ -135,7 +133,7 @@ export default function AddPost({ navigation }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["small", "medium", "Large"]}
+                data={["small", "medium", "large"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
@@ -158,7 +156,7 @@ export default function AddPost({ navigation }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["baby", "young", "adult", "senior"]}
+                data={["male", "female"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
@@ -189,11 +187,11 @@ export default function AddPost({ navigation }) {
               onChangeText={(e) => setContent(e)}
             />
           </View>
-          <View style={{ marginTop: 10, gap: 10 }}>
+          <View style={{ marginTop: 10, gap: 10, marginBottom: 15 }}>
             <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Image</Text>
             <View
               style={{
-                height: 170,
+                height: 140,
                 width: 307,
                 borderRadius: 5,
                 backgroundColor: "#eff4ff",
