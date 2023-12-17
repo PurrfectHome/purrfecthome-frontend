@@ -14,7 +14,7 @@ import { LoginContext } from "../context/LoginContext";
 import { gql, useMutation } from "@apollo/client";
 
 const LOGIN = gql`
-  mutation Mutation($username: String, $password: String) {
+  mutation Login($username: String, $password: String) {
     login(username: $username, password: $password) {
       accessToken
     }

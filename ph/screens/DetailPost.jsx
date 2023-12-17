@@ -8,62 +8,63 @@ import { gql, useQuery } from "@apollo/client";
 
 const DETAIL_POST = gql`
   query PostsById($postId: String) {
-  postsById(PostId: $postId) {
-    _id
-    name
-    size
-    age
-    breed
-    gender
-    color
-    description
-    AdopterId
-    PosterId
-    InformationId
-    status
-    statusPrice
-    photo
-    createdAt
-    updatedAt
-    lat
-    loc {
-      coordinates
-      type
+    postsById(PostId: $postId) {
+      _id
+      name
+      size
+      age
+      breed
+      gender
+      color
+      description
+      AdopterId
+      PosterId
+      InformationId
+      status
+      statusPrice
+      photo
+      createdAt
+      updatedAt
+      lat
+      loc {
+        coordinates
+        type
+      }
+      long
     }
-    long
   }
-}
-`
+`;
 
-export default function DetailPost({ navigation }) {
-  const [more, setMore] = useState(false)
-  const [post, setPost] = useState('')
-  const postId = '657ec147d30aadfca225ece4'
+export default function DetailPost({ navigation, route }) {
+  const [more, setMore] = useState(false);
+  const [post, setPost] = useState("");
+  const { id } = route.params;
 
   const { data, error, loading, refetch } = useQuery(DETAIL_POST, {
-    variables: { postId: postId }
-  })
+    variables: { postId: id },
+  });
 
   useEffect(() => {
     if (data) {
-      setPost(data.postsById)
+      setPost(data.postsById);
     }
-  }, [data])
+  }, [data]);
 
-  let desc
+  let desc;
   if (data) {
-    desc = post?.description.substring(0, 150);
-
+    desc = post?.description?.substring(0, 150);
   }
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
         <View>
-          <CarouselImage />
+          <CarouselImage image={post?.photo} />
           <View>
             <View style={tw`mx-5 mt-5 flex-row justify-between`}>
               <View style={tw`flex-row gap-3 items-center`}>
-                <Text style={{ fontSize: 25, fontWeight: "bold" }}>{post?.name}</Text>
+                <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+                  {post?.name}
+                </Text>
                 <Ionicons
                   name="female"
                   size={25}
@@ -123,14 +124,6 @@ export default function DetailPost({ navigation }) {
                     style={{ color: "#92aae2" }}
                   />
                 </View>
-                {/* <View style={tw`flex-row gap-1 items-center`}>
-                  <View style={{borderRadius: 7, backgroundColor: '#DC5B93', padding: 5 }}>
-                    <Text style={{ fontSize: 15, color: 'white'}}>
-                      With Adoption Fee
-                    </Text>
-                  </View>
-                  <Ionicons name="pricetag" size={17} style={{ color: '#DC5B93' }} />
-                </View> */}
               </View>
             </View>
             <View style={tw`mx-5 mt-5`}>
@@ -144,7 +137,17 @@ export default function DetailPost({ navigation }) {
                   }}
                   style={tw`pb-5`}
                 >
-                  <Text>{!more ? `${desc}...` : `${post?.description}`}</Text>
+                  <Text>
+                    {!more
+                      ? `${
+                          desc
+                            ? desc.length === 150
+                              ? `${desc}...`
+                              : desc
+                            : "Loading..."
+                        }`
+                      : `${post?.description}`}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

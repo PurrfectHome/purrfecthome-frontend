@@ -2,9 +2,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function CardHome({ navigation }) {
-  const originalString = "Russian Blue";
-  const substring = originalString.substring(0, 15);
+export default function CardHome({ post, navigation }) {
   return (
     <>
       <View
@@ -23,7 +21,7 @@ export default function CardHome({ navigation }) {
       >
         <View style={[tw`h-2/3`]}>
           <Image
-            source={{ uri: "https://source.unsplash.com/featured/?cat" }}
+            source={{ uri: `${post.photo[0]}` }}
             style={[
               tw`h-full w-full`,
               { borderTopLeftRadius: 10, borderTopRightRadius: 10 },
@@ -32,15 +30,23 @@ export default function CardHome({ navigation }) {
         </View>
         <View style={tw`p-2 gap-1`}>
           <View style={tw`flex-row justify-between`}>
-            <Text style={{ fontSize: 20 }}>Olla</Text>
-            <Ionicons name="female" size={20} style={{ color: "#DC5B93" }} />
+            <Text style={{ fontSize: 20 }}>{post.name}</Text>
+            {post.gender === "female" ? (
+              <Ionicons name="female" size={20} style={{ color: "#DC5B93" }} />
+            ) : (
+              <Ionicons name="male" size={20} style={{ color: "#DC5B93" }} />
+            )}
           </View>
-          <Text style={{ color: "#849ACE" }}>
-            {substring.length === 15 ? [`${substring}...`] : substring}
-          </Text>
+          <Text style={{ color: "#849ACE" }}>{post.breed}</Text>
           <View style={tw`flex-row justify-between`}>
-            <Text style={{ fontSize: 13, color: "#849ACE" }}>Adult</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
+            <Text style={{ fontSize: 13, color: "#849ACE" }}>{post.age}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Detail", {
+                  id: post._id,
+                });
+              }}
+            >
               <Ionicons
                 name="arrow-forward-outline"
                 size={20}

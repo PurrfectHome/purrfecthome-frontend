@@ -24,8 +24,10 @@ const POSTS = gql`
       gender
       color
       description
-      long
-      lat
+      loc {
+        coordinates
+        type
+      }
       AdopterId
       PosterId
       InformationId
@@ -58,27 +60,29 @@ export default function Home({ navigation }) {
     "Indonesian Domestic",
   ];
 
+  const [breed, setBreed] = useState("");
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
   const { data, loading, error, refetch } = useQuery(POSTS, {
     variables: {
-      breed: breeds,
+      breed: breed,
       lat: location?.coords?.latitude,
       long: location?.coords?.longitude,
     },
   });
 
-  // console.log(data, loading, error);
+  console.log(data, loading, error);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     if (data) {
       setPosts(data?.postsByRadius);
+      console.log(data);
     }
   }, [data]);
 
   // FIND RADIUS
-
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -89,8 +93,10 @@ export default function Home({ navigation }) {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      // console.log(location);
-      setLocation(location);
+      console.log(location);
+      if (Location) {
+        setLocation(location);
+      }
     })();
   }, []);
 
@@ -124,14 +130,13 @@ export default function Home({ navigation }) {
               height: 170,
             }}
             dropdownOverlayColor="transparent"
+            onSelect={(b) => setBreed(b)}
           />
         </View>
         <View style={tw`flex-row flex-wrap justify-center gap-5`}>
-          <CardHome navigation={navigation} />
-          <CardHome navigation={navigation} />
-          <CardHome navigation={navigation} />
-          <CardHome navigation={navigation} />
-          <CardHome navigation={navigation} />
+          {posts.map((post, index) => (
+            <CardHome key={index} post={post} navigation={navigation} />
+          ))}
         </View>
       </ScrollView>
     </View>
