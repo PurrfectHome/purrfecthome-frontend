@@ -80,7 +80,6 @@ export default function Home({ navigation }) {
   useEffect(() => {
     if (data) {
       setPosts(data?.postsByRadius);
-      console.log(data);
     }
   }, [data]);
 
