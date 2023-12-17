@@ -97,11 +97,19 @@ export default function DetailPost({ navigation, route }) {
                     <Text style={{ fontSize: 25, fontWeight: "bold" }}>
                       {post?.name}
                     </Text>
-                    <Ionicons
-                      name="female"
-                      size={25}
-                      style={{ color: "#DC5B93" }}
-                    />
+                    {post.gender === "female" ? (
+                      <Ionicons
+                        name="female"
+                        size={20}
+                        style={{ color: "#DC5B93" }}
+                      />
+                    ) : (
+                      <Ionicons
+                        name="male"
+                        size={20}
+                        style={{ color: "#DC5B93" }}
+                      />
+                    )}
                   </View>
                   <TouchableOpacity
                     onPress={() => navigation.navigate("ChatRoom")}
