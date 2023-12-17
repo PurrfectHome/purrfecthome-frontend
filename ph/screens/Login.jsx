@@ -31,14 +31,14 @@ export default function Login({ navigation }) {
   const [login, { data, loading, error }] = useMutation(LOGIN);
 
   const handleChange = (name, text) => {
-    console.log(text);
+    // console.log(text);
     setInput({ ...input, [name]: text });
   };
 
   const handleLogin = async () => {
     try {
       if (loading) return;
-      console.log(input);
+      // console.log(input);
       const { data } = await login({
         variables: {
           username: input.username,
@@ -52,7 +52,7 @@ export default function Login({ navigation }) {
     }
   };
 
-  console.log(data, error, loading);
+  // console.log(data, error, loading);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: 300,
     height: 51,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   loginText: {
     color: "white",
