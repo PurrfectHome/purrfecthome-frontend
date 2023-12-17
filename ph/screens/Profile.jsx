@@ -9,13 +9,80 @@ import {
   View,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import tw from "twrnc";
 import Logout from "../components/Logout";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { gql, useQuery } from "@apollo/client";
+import { useIsFocused } from '@react-navigation/native';
+
+const PROFILE = gql`
+  query UsersProfile {
+  usersProfile {
+    _id
+    fullname
+    username
+    email
+    Release {
+      _id
+      name
+      size
+      age
+      breed
+      gender
+      color
+      description
+      AdopterId
+      PosterId
+      InformationId
+      status
+      statusPrice
+      photo
+      createdAt
+      updatedAt
+    }
+    Adoption {
+      _id
+      name
+      size
+      age
+      breed
+      gender
+      color
+      description
+      AdopterId
+      PosterId
+      InformationId
+      status
+      statusPrice
+      photo
+      createdAt
+      updatedAt
+    }
+    accountType
+    createdAt
+    updatedAt
+  }
+}
+`
 
 export default function Profile({ navigation }) {
   const [more, setMore] = useState(true);
+  const [profile, setProfile] = useState('')
+  const { data, loading, error, refetch } = useQuery(PROFILE)
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (data) {
+      setProfile(data?.usersProfile);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if(isFocused) {
+      refetch()
+    }
+  },[isFocused, refetch])
 
   return (
     <View style={{ flex: 1 }}>
@@ -26,17 +93,17 @@ export default function Profile({ navigation }) {
       >
         <View style={{ flex: 0.5 }}></View>
         <View style={[tw`items-end justify-start h-3/4 pr-5 pt-2`]}>
-          <Logout/>
+          <Logout />
         </View>
       </ImageBackground>
 
       <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Image source={require("../img/catie.jpeg")} style={styles.pfp} />
+          <Image source={{uri: `https://www.gravatar.com/avatar/${profile._id}?s=200&r=pg&d=robohash`}} style={styles.pfp} />
         </View>
         <View style={{ marginTop: 80 }}>
           <View style={tw`flex-row justify-center items-center gap-1`}>
-            <Text style={styles.name}>{`Caca da Breeder`}</Text>
+            <Text style={styles.name}>{profile?.fullname}</Text>
           </View>
           {/* <Text style={{ textAlign: "center" }}>username: caca's</Text> */}
           <View style={styles.email}>
@@ -48,7 +115,7 @@ export default function Profile({ navigation }) {
               }}
             >
               <Text style={{ color: "#8596BE", fontWeight: "400" }}>
-                caca@mail.com
+                {profile?.email}
               </Text>
             </View>
           </View>
@@ -113,76 +180,43 @@ export default function Profile({ navigation }) {
           <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent: 'center', alignItems: 'center' }}>
             {more ? (
               <>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://www.zooplus.co.uk/magazine/wp-content/uploads/2018/03/russian-blue-768x510.jpg",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://www.zooplus.co.uk/magazine/wp-content/uploads/2018/03/russian-blue-768x510.jpg",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://source.unsplash.com/featured/?cat",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://source.unsplash.com/featured/?cat",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://www.zooplus.co.uk/magazine/wp-content/uploads/2018/03/russian-blue-768x510.jpg",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://www.zooplus.co.uk/magazine/wp-content/uploads/2018/03/russian-blue-768x510.jpg",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gridPost}>
-                  <Image
-                    source={{
-                      uri: "https://source.unsplash.com/featured/?cat",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
+                {
+                  profile?.Release?.map((el, i) => (
+                    <TouchableOpacity key={i}
+                      style={styles.gridPost}
+                      onPress={() =>  navigation.navigate("Detail", {
+                        id: el._id,
+                      })}
+                    >
+                      <Image
+                        source={{
+                          uri: `${el.photo[0]}`,
+                        }}
+                        style={[tw`w-full h-full`]}
+                      />
+                    </TouchableOpacity>
+                  ))
+                }
               </>
             ) : (
               <>
-                <TouchableOpacity
-                  style={styles.gridPost}
-                  onPress={() => navigation.navigate("Detail")}
-                >
-                  <Image
-                    source={{
-                      uri: "https://source.unsplash.com/featured/?cat",
-                    }}
-                    style={[tw`w-full h-full`]}
-                  />
-                </TouchableOpacity>
+                {
+                  profile?.Adoption?.map((el, i) => (
+                    <TouchableOpacity key={i}
+                      style={styles.gridPost}
+                      onPress={() =>  navigation.navigate("Detail", {
+                        id: el._id,
+                      })}
+                    >
+                      <Image
+                        source={{
+                          uri: `${el.photo[0]}`,
+                        }}
+                        style={[tw`w-full h-full`]}
+                      />
+                    </TouchableOpacity>
+                  ))
+                }
               </>
             )}
           </View>

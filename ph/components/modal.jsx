@@ -10,17 +10,8 @@ import {
 } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function ModalComponent() {
+export default function ModalComponent({data}) {
     const [modalVisible, setModalVisible] = useState(false);
-
-    const food = 'Kucing Persia memerlukan makanan berkualitas tinggi yang sesuai dengan kebutuhan mereka. Pilih makanan yang kaya akan protein, rendah karbohidrat, dan lemak sehat. Jika memungkinkan, pilih makanan khusus yang dirancang untuk kucing Persia dengan kebutuhan nutrisi yang sesuai dengan bulu panjang mereka.'
-    const treatment = `Sikat Rutin: Bulu kucing Persia perlu disikat setiap hari untuk mencegah gumpalan bulu dan menjaga kilau serta kebersihan bulu mereka.
-    Pembersihan dan Penanganan Bulu: Mandikan kucing Persia secara teratur (sekitar satu hingga dua kali sebulan) untuk menjaga kebersihan bulu mereka. Pastikan pengeringan yang baik untuk mencegah masalah kulit.
-    Perhatian Khusus di Area Matanya: Bersihkan mata mereka secara rutin dengan kapas yang dibasahi air hangat untuk mencegah penumpukan kotoran.`
-    const fisik = `Kucing Persia cenderung kurang aktif daripada beberapa ras lainnya. Mereka biasanya lebih suka bermain dalam sesi yang lebih pendek, jadi sediakan mainan yang sesuai dengan preferensi mereka.
-    Bantu kucing Persia untuk tetap aktif dengan sesi bermain singkat setiap hari. Ini dapat membantu menjaga berat badan yang sehat dan kesehatan secara keseluruhan.`
-    const kesehatan = `Kunjungan Rutin ke Dokter Hewan: Penting untuk membawa kucing Persia Anda ke dokter hewan secara berkala untuk pemeriksaan rutin, vaksinasi yang diperlukan, dan penanganan masalah kesehatan yang mungkin muncul.
-    Perhatian pada Masalah Kesehatan Khusus: Kucing Persia rentan terhadap masalah pernapasan karena bentuk wajah pesek mereka. Perhatikan tanda-tanda sesak napas atau gangguan pernapasan lainnya dan konsultasikan dengan dokter hewan jika ada kekhawatiran.`
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
@@ -40,38 +31,46 @@ export default function ModalComponent() {
                         <View style={{ paddingHorizontal: 10, marginTop: '20%', backgroundColor: 'white', opacity: 0.9, paddingTop: 10, borderRadius: 10, paddingBottom: 20 }}>
                             <ScrollView>
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>Persia</Text>
+                                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>{data?.breed}</Text>
                                 </View>
                                 <View style={{ gap: 3 }}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
-                                        Food:
+                                        {`Makanan ${data?.description?.makanan?.emoji}:`}
                                     </Text>
                                     <Text style={{ marginLeft: 20 }}>
-                                        {food}
+                                        {data?.description?.makanan?.deskripsi}
                                     </Text>
                                 </View>
                                 <View style={{ gap: 3 }}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginTop: 15 }}>
-                                        Treatment Bulu:
+                                        {`Kebersihan: ${data?.description?.kebersihan?.emoji}`}
                                     </Text>
                                     <Text style={{ marginLeft: 20 }}>
-                                        {treatment}
+                                        {data?.description?.kebersihan?.deskripsi}
                                     </Text>
                                 </View>
                                 <View style={{ gap: 3 }}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginTop: 15 }}>
-                                        Aktivitas Fisik:
+                                        {`Aktivitas Fisik ${data?.description?.aktivitas?.emoji}:`}
                                     </Text>
                                     <Text style={{ marginLeft: 20 }}>
-                                        {fisik}
+                                        {data?.description?.aktivitas?.deskripsi}
                                     </Text>
                                 </View>
                                 <View style={{ gap: 3 }}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginTop: 15 }}>
-                                        Kesehatan:
+                                        {`Kesehatan ${data?.description?.kesehatan?.emoji}:`}
                                     </Text>
                                     <Text style={{ marginLeft: 20 }}>
-                                        {kesehatan}
+                                        {data?.description?.kesehatan?.deskripsi}
+                                    </Text>
+                                </View>
+                                <View style={{ gap: 3 }}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', marginTop: 15 }}>
+                                        {`Tempat Istirahat ${data?.description?.tempat_beristirahat?.emoji}:`}
+                                    </Text>
+                                    <Text style={{ marginLeft: 20 }}>
+                                        {data?.description?.tempat_beristirahat?.deskripsi}
                                     </Text>
                                 </View>
                             </ScrollView>
