@@ -12,7 +12,7 @@ export default function DetailPost({ navigation }) {
   const substring = originalString.substring(0, 150);
   return (
     <>
-      <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA"}}>
         <View>
           <CarouselImage />
           <View>
@@ -97,6 +97,7 @@ export default function DetailPost({ navigation }) {
                   onPress={() => {
                     !more ? setMore(true) : setMore(false);
                   }}
+                  style={tw`pb-5`}
                 >
                   <Text>{!more ? `${substring}...` : `${originalString}`}</Text>
                 </TouchableOpacity>

@@ -12,6 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import tw from "twrnc";
 import Logout from "../components/Logout";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function Profile({ navigation }) {
   const [more, setMore] = useState(true);
@@ -19,11 +20,14 @@ export default function Profile({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
-        source={require("../img/banner.jpeg")}
+        source={{ uri: 'https://i.imgur.com/2qqvytP.jpg' }}
         style={{ flex: 0.375, opacity: 0.8 }}
         resizeMode={"cover"}
       >
         <View style={{ flex: 0.5 }}></View>
+        <View style={[tw`items-end justify-start h-3/4 pr-5 pt-2`]}>
+          <Logout/>
+        </View>
       </ImageBackground>
 
       <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
@@ -33,11 +37,6 @@ export default function Profile({ navigation }) {
         <View style={{ marginTop: 80 }}>
           <View style={tw`flex-row justify-center items-center gap-1`}>
             <Text style={styles.name}>{`Caca da Breeder`}</Text>
-            <View style={tw`flex-row justify-center items-center gap-1`}>
-              <Text>{"("}</Text>
-              <Logout />
-              <Text>{")"}</Text>
-            </View>
           </View>
           {/* <Text style={{ textAlign: "center" }}>username: caca's</Text> */}
           <View style={styles.email}>
@@ -111,7 +110,7 @@ export default function Profile({ navigation }) {
           </TouchableOpacity>
         </View>
         <ScrollView>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent: 'center', alignItems: 'center' }}>
             {more ? (
               <>
                 <TouchableOpacity style={styles.gridPost}>

@@ -207,5 +207,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: 300,
     height: 51,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });
