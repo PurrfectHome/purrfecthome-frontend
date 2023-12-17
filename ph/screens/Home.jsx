@@ -12,6 +12,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { gql, useQuery } from "@apollo/client";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 const POSTS = gql`
   query PostsByRadius($breed: String, $lat: Float, $long: Float) {
@@ -74,11 +75,11 @@ export default function Home({ navigation }) {
 
   console.log(data, loading, error);
   const [posts, setPosts] = useState([]);
+  const focus = useIsFocused();
 
   useEffect(() => {
     if (data) {
       setPosts(data?.postsByRadius);
-      console.log(data);
     }
   }, [data]);
 
@@ -99,6 +100,12 @@ export default function Home({ navigation }) {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (focus) {
+      refetch();
+    }
+  }, [focus, refetch]);
 
   let text = "Waiting..";
   if (errorMsg) {
@@ -134,7 +141,7 @@ export default function Home({ navigation }) {
           />
         </View>
         <View style={tw`flex-row flex-wrap justify-center gap-5`}>
-          {posts.map((post, index) => (
+          {posts?.map((post, index) => (
             <CardHome key={index} post={post} navigation={navigation} />
           ))}
         </View>
