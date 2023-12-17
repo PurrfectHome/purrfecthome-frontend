@@ -1,24 +1,69 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CarouselImage from "../components/carousel";
 import ModalComponent from "../components/modal";
+import { gql, useQuery } from "@apollo/client";
+
+const DETAIL_POST = gql`
+  query PostsById($postId: String) {
+  postsById(PostId: $postId) {
+    _id
+    name
+    size
+    age
+    breed
+    gender
+    color
+    description
+    AdopterId
+    PosterId
+    InformationId
+    status
+    statusPrice
+    photo
+    createdAt
+    updatedAt
+    lat
+    loc {
+      coordinates
+      type
+    }
+    long
+  }
+}
+`
 
 export default function DetailPost({ navigation }) {
-  const [more, setMore] = useState(false);
-  const originalString =
-    "Ini adalah kucing yang penuh dengan kelembutan, siap memberikan kehangatan melalui belaian lembutnya. Dengan mata yang penuh kecerdasan dan keingintahuan yang tak terbatas, dia siap untuk menjadi teman setia dalam petualangan dan membagikan kasih sayangnya kepada yang menerimanya dalam keluarga baru.";
-  const substring = originalString.substring(0, 150);
+  const [more, setMore] = useState(false)
+  const [post, setPost] = useState('')
+  const postId = '657ec147d30aadfca225ece4'
+
+  const { data, error, loading, refetch } = useQuery(DETAIL_POST, {
+    variables: { postId: postId }
+  })
+
+  useEffect(() => {
+    if (data) {
+      setPost(data.postsById)
+    }
+  }, [data])
+
+  let desc
+  if (data) {
+    desc = post?.description.substring(0, 150);
+
+  }
   return (
     <>
-      <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA"}}>
+      <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
         <View>
           <CarouselImage />
           <View>
             <View style={tw`mx-5 mt-5 flex-row justify-between`}>
               <View style={tw`flex-row gap-3 items-center`}>
-                <Text style={{ fontSize: 25, fontWeight: "bold" }}>Olla</Text>
+                <Text style={{ fontSize: 25, fontWeight: "bold" }}>{post?.name}</Text>
                 <Ionicons
                   name="female"
                   size={25}
@@ -37,24 +82,24 @@ export default function DetailPost({ navigation }) {
               <View style={tw`gap-2 justify-center items-center`}>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>Breed</Text>
                 <View style={tw`flex-row gap-1 items-center`}>
-                  <Text>Persia</Text>
+                  <Text>{post?.breed}</Text>
                   <ModalComponent />
                 </View>
               </View>
               <View style={{ borderWidth: 0.5, opacity: 0.2 }}></View>
               <View style={tw`gap-2 justify-center items-center`}>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>Age</Text>
-                <Text>Adult</Text>
+                <Text>{post?.age}</Text>
               </View>
               <View style={{ borderWidth: 0.5, opacity: 0.2 }}></View>
               <View style={tw`gap-2 justify-center items-center`}>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>Size</Text>
-                <Text>Medium</Text>
+                <Text>{post?.size}</Text>
               </View>
               <View style={{ borderWidth: 0.5, opacity: 0.2 }}></View>
               <View style={tw`gap-2 justify-center items-center`}>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>Color</Text>
-                <Text>Grey</Text>
+                <Text>{post?.color}</Text>
               </View>
             </View>
             <View style={tw`mx-5 mt-5`}>
@@ -69,7 +114,7 @@ export default function DetailPost({ navigation }) {
                     }}
                   >
                     <Text style={{ fontSize: 15, color: "white" }}>
-                      Without Adoption Fee
+                      {post?.statusPrice}
                     </Text>
                   </View>
                   <Ionicons
@@ -99,7 +144,7 @@ export default function DetailPost({ navigation }) {
                   }}
                   style={tw`pb-5`}
                 >
-                  <Text>{!more ? `${substring}...` : `${originalString}`}</Text>
+                  <Text>{!more ? `${desc}...` : `${post?.description}`}</Text>
                 </TouchableOpacity>
               </View>
             </View>
