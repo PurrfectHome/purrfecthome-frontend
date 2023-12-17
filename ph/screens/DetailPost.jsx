@@ -9,28 +9,46 @@ import { gql, useQuery } from "@apollo/client";
 const DETAIL_POST = gql`
   query PostsById($postId: String) {
     postsById(PostId: $postId) {
-      _id
-      name
-      size
-      age
-      breed
-      gender
-      color
-      description
       AdopterId
-      PosterId
-      InformationId
-      status
       statusPrice
-      photo
-      createdAt
-      updatedAt
-      lat
-      loc {
-        coordinates
-        type
+      status
+      Information {
+        _id
+        breed
+        description {
+          makanan {
+            deskripsi
+            emoji
+          }
+          kesehatan {
+            deskripsi
+            emoji
+          }
+          kebersihan {
+            deskripsi
+            emoji
+          }
+          aktivitas {
+            deskripsi
+            emoji
+          }
+          tempat_beristirahat {
+            deskripsi
+            emoji
+          }
+        }
       }
-      long
+      InformationId
+      PosterId
+      _id
+      age
+      color
+      breed
+      description
+      gender
+      name
+      photo
+      size
     }
   }
 `;
@@ -47,6 +65,7 @@ export default function DetailPost({ navigation, route }) {
   useEffect(() => {
     if (data) {
       setPost(data.postsById);
+      console.log(data);
     }
   }, [data]);
 
@@ -65,11 +84,19 @@ export default function DetailPost({ navigation, route }) {
                 <Text style={{ fontSize: 25, fontWeight: "bold" }}>
                   {post?.name}
                 </Text>
-                <Ionicons
-                  name="female"
-                  size={25}
-                  style={{ color: "#DC5B93" }}
-                />
+                {post.gender === "female" ? (
+                  <Ionicons
+                    name="female"
+                    size={20}
+                    style={{ color: "#DC5B93" }}
+                  />
+                ) : (
+                  <Ionicons
+                    name="male"
+                    size={20}
+                    style={{ color: "#DC5B93" }}
+                  />
+                )}
               </View>
               <TouchableOpacity onPress={() => navigation.navigate("ChatRoom")}>
                 <Ionicons

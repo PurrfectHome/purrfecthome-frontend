@@ -12,31 +12,89 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import ImagePick from "../components/imagePicker";
 import tw from "twrnc";
 import * as Location from "expo-location";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 import { gql, useMutation } from "@apollo/client";
 
 const ADD_POST = gql`
-  mutation AddPost($name: String, $size: String, $age: String, $breed: String, $gender: String, $color: String, $description: String, $photo: [String], $statusPrice: String, $long: Float, $lat: Float) {
-  addPost(name: $name, size: $size, age: $age, breed: $breed, gender: $gender, color: $color, description: $description, photo: $photo, statusPrice: $statusPrice, long: $long, lat: $lat) {
-    code
-    message
+  mutation AddPost(
+    $name: String
+    $size: String
+    $age: String
+    $breed: String
+    $gender: String
+    $color: String
+    $description: String
+    $photo: [String]
+    $statusPrice: String
+    $long: Float
+    $lat: Float
+  ) {
+    addPost(
+      name: $name
+      size: $size
+      age: $age
+      breed: $breed
+      gender: $gender
+      color: $color
+      description: $description
+      photo: $photo
+      statusPrice: $statusPrice
+      long: $long
+      lat: $lat
+    ) {
+      code
+      message
+    }
   }
-}
-`
+`;
 
-export default function AddPost({ navigation }) {
-  const [name, setName] = useState("")
-  const [color, setColor] = useState("")
-  const [status, setStatus] = useState("")
-  const [size, setSize] = useState("")
-  const [age, setAge] = useState("")
-  const [breed, setBreed] = useState("")
-  const [gender, setGender] = useState("")
-  const [description, setDescription] = useState("")
+const EDIT = gql`
+  mutation EditPost(
+    $postId: String
+    $name: String
+    $size: String
+    $age: String
+    $breed: String
+    $gender: String
+    $color: String
+    $description: String
+    $status: String
+    $statusPrice: String
+    $photo: [String]
+  ) {
+    editPost(
+      PostId: $postId
+      name: $name
+      size: $size
+      age: $age
+      breed: $breed
+      gender: $gender
+      color: $color
+      description: $description
+      status: $status
+      statusPrice: $statusPrice
+      photo: $photo
+    ) {
+      message
+      code
+    }
+  }
+`;
+
+export default function AddPost({ navigation, route }) {
+  const [name, setName] = useState("");
+  const [color, setColor] = useState("");
+  const [status, setStatus] = useState("");
+  const [size, setSize] = useState("");
+  const [age, setAge] = useState("");
+  const [breed, setBreed] = useState("");
+  const [gender, setGender] = useState("");
+  const [description, setDescription] = useState("");
   const [imgUrlAdd, setImgUrlAdd] = useState([]);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
+  const dataEdit = route.params;
 
   const breedList = [
     "Maine Coon",
@@ -54,10 +112,11 @@ export default function AddPost({ navigation }) {
     "Ragamuffin",
     "Burmese",
     "Russian Blue",
-    "Indonesian Domestic"
-  ]
+    "Indonesian Domestic",
+  ];
 
   const [add, { data, loading, error }] = useMutation(ADD_POST);
+  const [edit, { data: d, loading: l, error: e }] = useMutation(EDIT);
 
   const handleAdd = async () => {
     const data = {
@@ -72,19 +131,48 @@ export default function AddPost({ navigation }) {
       photo: imgUrlAdd,
       lat: location?.coords?.latitude,
       long: location?.coords?.longitude,
-    }
+    };
     try {
       if (loading) return;
       console.log(data);
-      const response = await add({
+      const response = await edit({
         variables: data,
       });
-      console.log(response)
+      console.log(response);
       navigation.navigate("Home");
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  // EDIT
+  const handleEdit = async () => {
+    const data = {
+      postId: dataEdit?.dataEdit?._id,
+      name,
+      size,
+      age,
+      breed,
+      gender,
+      color,
+      description,
+      status: "available", // => harusnya x usah
+      statusPrice: status,
+      photo: imgUrlAdd,
+    };
+    console.log(data, ">>>> DATA EDIT DARI ADOPT");
+    try {
+      if (l) return;
+      console.log(data);
+      const response = await edit({
+        variables: data,
+      });
+      console.log(response);
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -111,21 +199,29 @@ export default function AddPost({ navigation }) {
 
   return (
     // TAMBAHAN OKA
-    <ScrollView style={{ paddingVertical: '10%', backgroundColor: 'white' }}>
+    <ScrollView style={{ paddingVertical: "10%", backgroundColor: "white" }}>
       <View style={[tw`justify-between flex-row items-center px-5`]}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          {loading ? <ActivityIndicator /> : <Ionicons name="chevron-back" size={25} />}
+        <TouchableOpacity
+          onPress={() => {
+            dataEdit
+              ? navigation.navigate("Adoptable")
+              : navigation.navigate("Home");
+          }}
+        >
+          {loading || l ? (
+            <ActivityIndicator />
+          ) : (
+            <Ionicons name="chevron-back" size={25} />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleAdd} style={[tw`flex-row items-center`]}>
+        <TouchableOpacity
+          onPress={dataEdit?.dataEdit ? handleEdit : handleAdd}
+          style={[tw`flex-row items-center`]}
+        >
           <Text>Post</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={[
-          tw`px-22`,
-          { flex: 1, backgroundColor: "white" },
-        ]}
-      >
+      <View style={[tw`px-22`, { flex: 1, backgroundColor: "white" }]}>
         <View
           style={{
             flexDirection: "row",
@@ -133,38 +229,50 @@ export default function AddPost({ navigation }) {
             justifyContent: "center",
             gap: 100,
           }}
-        >
-        </View>
+        ></View>
         <View
           style={{ justifyContent: "center", alignItems: "center", gap: 10 }}
         >
           <View style={{ marginTop: 10, gap: 10 }}>
             <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Name</Text>
             <TextInput
-              value={name}
+              defaultValue={
+                dataEdit?.dataEdit ? dataEdit?.dataEdit?.name : name
+              }
               style={[
                 tw`h-10 rounded-md`,
-                { backgroundColor: "#eff4ff", width: 307, elevation: 5, },
+                { backgroundColor: "#eff4ff", width: 307, elevation: 5 },
               ]}
-              onChangeText={(e) => setName(e)}
+              //  {
+              //   name ?
+              //   onChangeText={(e) => setName(e)} : setName(defaultValue)
+              // }
             />
           </View>
           <View style={[tw`flex-row items-center`, { marginTop: 10, gap: 10 }]}>
             <View style={{ gap: 10 }}>
-              <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Color</Text>
+              <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>
+                Color
+              </Text>
               <TextInput
-                value={color}
+                defaultValue={
+                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.color : color
+                }
                 style={[
                   tw`h-10 rounded-md`,
-                  { backgroundColor: "#eff4ff", width: 150, elevation: 5, },
+                  { backgroundColor: "#eff4ff", width: 150, elevation: 5 },
                 ]}
                 onChangeText={(e) => setColor(e)}
               />
             </View>
             <View style={{ gap: 10 }}>
-              <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Status Payable</Text>
+              <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>
+                Status Payable
+              </Text>
               <SelectDropdown
-                value={status}
+                defaultValue={
+                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.statusPrice : status
+                }
                 buttonStyle={[
                   tw`h-10 rounded-md`,
                   {
@@ -189,7 +297,9 @@ export default function AddPost({ navigation }) {
             <View style={{ gap: 10 }}>
               <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Size</Text>
               <SelectDropdown
-                value={size}
+                defaultValue={
+                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.size : size
+                }
                 buttonStyle={[
                   tw`h-10 rounded-md`,
                   {
@@ -199,7 +309,7 @@ export default function AddPost({ navigation }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["small", "medium", "Large"]}
+                data={["Small", "Medium", "Large"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
@@ -212,7 +322,9 @@ export default function AddPost({ navigation }) {
             <View style={{ gap: 10 }}>
               <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Age</Text>
               <SelectDropdown
-                value={age}
+                defaultValue={
+                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.age : age
+                }
                 buttonStyle={[
                   tw`h-10 rounded-md`,
                   {
@@ -222,7 +334,7 @@ export default function AddPost({ navigation }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["baby", "young", "adult", "senior"]}
+                data={["Baby", "Young", "Adult", "Senior"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
@@ -239,7 +351,9 @@ export default function AddPost({ navigation }) {
                 Breed
               </Text>
               <SelectDropdown
-                value={breed}
+                defaultValue={
+                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.breed : breed
+                }
                 buttonStyle={[
                   tw`h-10 rounded-md`,
                   {
@@ -264,7 +378,9 @@ export default function AddPost({ navigation }) {
                 Gender
               </Text>
               <SelectDropdown
-                value={gender}
+                defaultValue={
+                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.gender : gender
+                }
                 buttonStyle={[
                   tw`h-10 rounded-md`,
                   {
@@ -274,7 +390,7 @@ export default function AddPost({ navigation }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["male", "female"]}
+                data={["Male", "Female"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
@@ -290,7 +406,11 @@ export default function AddPost({ navigation }) {
               Description
             </Text>
             <TextInput
-              value={description}
+              defaultValue={
+                dataEdit?.dataEdit
+                  ? dataEdit?.dataEdit?.description
+                  : description
+              }
               style={[
                 tw`rounded-md w-full`,
                 {
@@ -317,7 +437,10 @@ export default function AddPost({ navigation }) {
                 elevation: 5,
               }}
             >
-              <ImagePick setImageUrlAdd={setImgUrlAdd} />
+              <ImagePick
+                setImageUrlAdd={setImgUrlAdd}
+                editImg={dataEdit?.dataEdit?.photo}
+              />
             </View>
           </View>
         </View>
