@@ -24,7 +24,9 @@ export default function CarouselImage({ image }) {
     );
   };
 
-  const carouselItems = image;
+  const carouselItems = image?.map((el) => {
+    return { image: el };
+  });
   console.log(carouselItems);
 
   const pagination = () => {
