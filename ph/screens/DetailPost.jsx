@@ -162,7 +162,10 @@ export default function DetailPost({ navigation, route }) {
                       <View
                         style={{
                           borderRadius: 7,
-                          backgroundColor: "#92aae2",
+                          backgroundColor:
+                            post.statusPrice === "Without Adoption Fee"
+                              ? "#92aae2"
+                              : "#DC5B93",
                           padding: 5,
                         }}
                       >
@@ -173,7 +176,12 @@ export default function DetailPost({ navigation, route }) {
                       <Ionicons
                         name="pricetag"
                         size={17}
-                        style={{ color: "#92aae2" }}
+                        style={{
+                          color:
+                            post.statusPrice === "Without Adoption Fee"
+                              ? "#92aae2"
+                              : "#DC5B93",
+                        }}
                       />
                     </View>
                   </View>

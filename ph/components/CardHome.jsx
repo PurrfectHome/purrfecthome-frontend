@@ -16,6 +16,7 @@ export default function CardHome({ post, navigation }) {
             shadowRadius: 2,
             shadowOffset: { width: 0, height: 2 },
             elevation: 5,
+            paddingBottom: 10,
           },
         ]}
       >

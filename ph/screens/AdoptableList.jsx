@@ -12,6 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import ModalComponentRelease from "../components/modalRelease";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 const AVAILABLE = gql`
   query PostsByPosterId($status: String) {
@@ -36,9 +37,9 @@ const AVAILABLE = gql`
 const DELETE = gql`
   mutation DeletePost($postId: ID) {
     deletePost(PostId: $postId) {
-    message
-    code
-  }
+      message
+      code
+    }
   }
 `;
 
@@ -52,6 +53,7 @@ export default function AdoptableCat({ navigation }) {
   console.log(data, loading, error);
   const [posts, setPosts] = useState([]);
   const [del, { data: d, loading: l, error: e }] = useMutation(DELETE);
+  const focus = useIsFocused();
 
   useEffect(() => {
     if (data) {
@@ -61,8 +63,8 @@ export default function AdoptableCat({ navigation }) {
   }, [data]);
 
   const released = () => {
-    refetch()
-  }
+    refetch();
+  };
 
   // DELETE
   const handleDelete = async (id) => {
@@ -77,6 +79,12 @@ export default function AdoptableCat({ navigation }) {
     }
   };
 
+  useEffect(() => {
+    if (focus) {
+      refetch();
+    }
+  }, [focus, refetch]);
+
   return (
     <>
       <ScrollView style={{ backgroundColor: "#EAEDFC", flex: 1 }}>
@@ -85,7 +93,11 @@ export default function AdoptableCat({ navigation }) {
           {posts?.map((post, index) => (
             <View
               key={index}
-              style={{ backgroundColor: "white", flexDirection: "row" }}
+              style={{
+                backgroundColor: "white",
+                flexDirection: "row",
+                height: 100,
+              }}
             >
               <View style={tw`p-3`}>
                 <Image
@@ -116,32 +128,42 @@ export default function AdoptableCat({ navigation }) {
                     )}
                   </View>
                   <Text style={{ color: "#92aae2" }}>{post.breed}</Text>
-                  <View>
-                    <TouchableOpacity style={{ marginTop: 5 }}>
-                      <ModalComponentRelease postId={post._id} refetch={released}/>
-                    </TouchableOpacity>
-                  </View>
                 </View>
-                <View style={tw`justify-between items-end mr-3`}>
-                  <View style={tw`flex-row gap-3 items-center`}>
-                    {/* EDIT BUTTON */}
-                    <TouchableOpacity
-                      style={tw`flex-row items-end`}
-                      onPress={() => {
-                        navigation.navigate("Add", {
-                          dataEdit: post,
-                        });
-                      }}
-                    >
-                      <Ionicons name="pencil" size={20} color={"#92aae2"} />
-                      <Text style={{ fontSize: 12, color: "#92aae2" }}>
-                        Edit
-                      </Text>
-                    </TouchableOpacity>
-                    {/* DELETE BUTTON */}
-                    <TouchableOpacity onPress={() => handleDelete(post._id)}>
-                      <Ionicons name="trash-outline" size={25} color={"red"} />
-                    </TouchableOpacity>
+                <View style={tw`justify-between mar`}>
+                  <View style={tw`justify-between items-end mr-3`}>
+                    <View style={tw`flex-row gap-3 items-center`}>
+                      {/* EDIT BUTTON */}
+                      <TouchableOpacity
+                        style={tw`flex-row items-end`}
+                        onPress={() => {
+                          navigation.navigate("Add", {
+                            dataEdit: post,
+                          });
+                        }}
+                      >
+                        <Ionicons name="pencil" size={20} color={"#92aae2"} />
+                        <Text style={{ fontSize: 12, color: "#92aae2" }}>
+                          Edit
+                        </Text>
+                      </TouchableOpacity>
+                      {/* DELETE BUTTON */}
+                      <TouchableOpacity onPress={() => handleDelete(post._id)}>
+                        <Ionicons
+                          name="trash-outline"
+                          size={25}
+                          color={"red"}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    {/* RELEASE */}
+                    <View>
+                      <TouchableOpacity style={{ marginTop: 5 }}>
+                        <ModalComponentRelease
+                          postId={post._id}
+                          refetch={released}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>

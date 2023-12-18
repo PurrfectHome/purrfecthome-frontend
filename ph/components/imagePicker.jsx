@@ -1,12 +1,22 @@
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { Button, Image, Platform, ScrollView, View } from "react-native";
+import {
+  Button,
+  Image,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Constant from "expo-constants";
 import tw from "twrnc";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ImagePick({ setImageUrlAdd, editImg }) {
   const [image, setImages] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     const cek = async () => {
@@ -52,6 +62,8 @@ export default function ImagePick({ setImageUrlAdd, editImg }) {
     data.append("upload_preset", "pf_home");
     data.append("cloud_name", "dbnwxas35");
 
+    setLoad(true);
+
     try {
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/dbnwxas35/image/upload",
@@ -62,38 +74,67 @@ export default function ImagePick({ setImageUrlAdd, editImg }) {
       );
 
       const responseData = await response.json();
+
+      console.log(load, ">>> load console");
+
       setImageUrl((prevUrls) => [...prevUrls, responseData.url]);
       setImageUrlAdd((prevUrls) => [...prevUrls, responseData.url]);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoad(false);
     }
   };
 
+  let arrImg;
+
   if (editImg) {
-    let arrImg = [...imageUrl, ...editImg];
+    arrImg = [...imageUrl, ...editImg];
   }
 
   return (
     <>
       <View style={tw`justify-center items-center h-full`}>
-        <Button title="Select Image" onPress={PickImage} />
+        <TouchableOpacity
+          style={{
+            paddingVertical: 10,
+            flexDirection: "row",
+            gap: 5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={PickImage}
+        >
+          <Text style={{ fontSize: 12, color: "#DC5B93" }}>Choose Image</Text>
+          <Ionicons name="images" size={24} color="#DC5B93" />
+        </TouchableOpacity>
         <ScrollView horizontal style={tw`flex-row`}>
-          {editImg
-            ? arrImg.map((el, i) => (
-                <Image
-                  key={i}
-                  source={{ uri: el }}
-                  style={[tw`w-28 h-28 mx-1`, { borderRadius: 5 }]}
-                />
-              ))
-            : imageUrl &&
-              imageUrl.map((el, i) => (
-                <Image
-                  key={i}
-                  source={{ uri: el }}
-                  style={[tw`w-28 h-28 mx-1`, { borderRadius: 5 }]}
-                />
-              ))}
+          {load ? (
+            <View style={[tw`items-center`, { marginTop: "10%" }]}>
+              <Text
+                style={{ color: "#92aae2", fontSize: 10, fontWeight: "bold" }}
+              >
+                Loading Image...
+              </Text>
+            </View>
+          ) : editImg ? (
+            arrImg.map((el, i) => (
+              <Image
+                key={i}
+                source={{ uri: el }}
+                style={[tw`w-20 h-20 mx-1`, { borderRadius: 5 }]}
+              />
+            ))
+          ) : (
+            imageUrl &&
+            imageUrl.map((el, i) => (
+              <Image
+                key={i}
+                source={{ uri: el }}
+                style={[tw`w-20 h-20 mx-1`, { borderRadius: 5 }]}
+              />
+            ))
+          )}
         </ScrollView>
       </View>
     </>

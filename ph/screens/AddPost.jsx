@@ -84,7 +84,7 @@ const EDIT = gql`
 export default function AddPost({ navigation, route }) {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
-  const [status, setStatus] = useState("");
+  const [statusPrice, setStatusPrice] = useState("");
   const [size, setSize] = useState("");
   const [age, setAge] = useState("");
   const [breed, setBreed] = useState("");
@@ -122,7 +122,10 @@ export default function AddPost({ navigation, route }) {
     const data = {
       name,
       color,
-      statusPrice: status,
+      statusPrice:
+        statusPrice === "With Fee"
+          ? "With Adoption Fee"
+          : "Without Adoption Fee",
       size,
       age,
       breed,
@@ -149,16 +152,20 @@ export default function AddPost({ navigation, route }) {
   const handleEdit = async () => {
     const data = {
       postId: dataEdit?.dataEdit?._id,
-      name,
-      size,
-      age,
-      breed,
-      gender,
-      color,
-      description,
+      name: name ? name : dataEdit.dataEdit.name,
+      size: size ? size : dataEdit.dataEdit.size,
+      age: age ? age : dataEdit.dataEdit.age,
+      breed: breed ? breed : dataEdit.dataEdit.breed,
+      gender: gender ? gender : dataEdit.dataEdit.gender,
+      color: color ? color : dataEdit.dataEdit.color,
+      description: description ? description : dataEdit.dataEdit.description,
       status: "available", // => harusnya x usah
-      statusPrice: status,
-      photo: imgUrlAdd,
+      statusPrice: statusPrice
+        ? statusPrice === "With Fee"
+          ? "With Adoption Fee"
+          : "Without Adoption Fee"
+        : dataEdit.dataEdit.statusPrice,
+      photo: imgUrlAdd.length > 0 ? imgUrlAdd : dataEdit.dataEdit.photo,
     };
     console.log(data, ">>>> DATA EDIT DARI ADOPT");
     try {
@@ -241,12 +248,14 @@ export default function AddPost({ navigation, route }) {
               }
               style={[
                 tw`h-10 rounded-md`,
-                { backgroundColor: "#eff4ff", width: 307, elevation: 5 },
+                {
+                  backgroundColor: "#eff4ff",
+                  width: 307,
+                  elevation: 5,
+                  paddingLeft: 10,
+                },
               ]}
-              //  {
-              //   name ?
-              //   onChangeText={(e) => setName(e)} : setName(defaultValue)
-              // }
+              onChangeText={(e) => setName(e)}
             />
           </View>
           <View style={[tw`flex-row items-center`, { marginTop: 10, gap: 10 }]}>
@@ -260,7 +269,12 @@ export default function AddPost({ navigation, route }) {
                 }
                 style={[
                   tw`h-10 rounded-md`,
-                  { backgroundColor: "#eff4ff", width: 150, elevation: 5 },
+                  {
+                    backgroundColor: "#eff4ff",
+                    width: 150,
+                    elevation: 5,
+                    paddingLeft: 10,
+                  },
                 ]}
                 onChangeText={(e) => setColor(e)}
               />
@@ -271,7 +285,15 @@ export default function AddPost({ navigation, route }) {
               </Text>
               <SelectDropdown
                 defaultValue={
-                  dataEdit?.dataEdit ? dataEdit?.dataEdit?.statusPrice : status
+                  dataEdit?.dataEdit
+                    ? dataEdit?.dataEdit?.statusPrice === "With Adoption Fee"
+                      ? "With Fee"
+                      : "Without Fee"
+                    : statusPrice === "With Adoption Fee"
+                    ? "With Fee"
+                    : statusPrice === ""
+                    ? "--"
+                    : "Without Fee"
                 }
                 buttonStyle={[
                   tw`h-10 rounded-md`,
@@ -282,14 +304,14 @@ export default function AddPost({ navigation, route }) {
                     paddingLeft: 10,
                   },
                 ]}
-                data={["Without Adoption Fee", "With Adoption Fee"]}
+                data={["Without Fee", "With Fee"]}
                 defaultButtonText="--"
                 dropdownStyle={{
                   backgroundColor: "white",
                   borderRadius: 10,
                   height: 170,
                 }}
-                onSelect={(e) => setStatus(e)}
+                onSelect={(e) => setStatusPrice(e)}
               />
             </View>
           </View>
@@ -412,10 +434,12 @@ export default function AddPost({ navigation, route }) {
                   : description
               }
               style={[
-                tw`rounded-md w-full`,
+                tw`rounded-md`,
                 {
                   height: 100,
-                  paddingHorizontal: "48%",
+
+                  width: 307,
+                  padding: 10,
                   elevation: 5,
                   backgroundColor: "#eff4ff",
                 },
@@ -426,7 +450,8 @@ export default function AddPost({ navigation, route }) {
               onChangeText={(e) => setDescription(e)}
             />
           </View>
-          <View style={{ marginTop: 10, gap: 10, marginBottom: 15 }}>
+          {/* mb dari 15 */}
+          <View style={{ marginTop: 10, gap: 10, marginBottom: 30 }}>
             <Text style={{ color: "#DC5B93", fontWeight: "bold" }}>Image</Text>
             <View
               style={{
@@ -444,9 +469,6 @@ export default function AddPost({ navigation, route }) {
             </View>
           </View>
         </View>
-        {/* </ScrollView> => MAS LULUS*/}
-
-        {/* TAMBAHAN OKA */}
       </View>
     </ScrollView>
   );

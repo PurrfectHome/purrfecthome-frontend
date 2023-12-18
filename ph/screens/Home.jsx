@@ -64,9 +64,8 @@ export default function Home({ navigation }) {
   const [breed, setBreed] = useState("");
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [locationLoading, setLocationLoading] = useState(true)
+  const [locationLoading, setLocationLoading] = useState(true);
 
-  
   const { data, loading, error, refetch } = useQuery(POSTS, {
     variables: {
       breed: breed,
@@ -83,8 +82,8 @@ export default function Home({ navigation }) {
     if (data) {
       setPosts(data.postsByRadius);
       if (data?.postsByRadius) {
-        setLocationLoading(false)
-      } 
+        setLocationLoading(false);
+      }
     }
   }, [data]);
 
@@ -119,12 +118,10 @@ export default function Home({ navigation }) {
     text = JSON.stringify(location);
   }
 
-  
-
   return (
     // PADDING DARI 5 => 2
-    <View style={[tw`flex-1 p-2`, { backgroundColor: "white" }]}>
-      <ScrollView>
+    <ScrollView style={{ backgroundColor: "white" }}>
+      <View style={[tw`flex-1 p-2`, { backgroundColor: "white" }]}>
         <View style={tw`justify-center items-center mb-5`}>
           <SelectDropdown
             buttonStyle={{
@@ -147,17 +144,18 @@ export default function Home({ navigation }) {
             onSelect={(b) => setBreed(b)}
           />
         </View>
-        {
-          locationLoading ?
-            <View style={tw`justify-center items-center`}><Text>Waiting for location...</Text></View> :
-            <View style={tw`flex-row flex-wrap justify-center gap-5`}>
-              {posts?.map((post, index) => (
-                <CardHome key={index} post={post} navigation={navigation} />
-              ))}
-            </View>
-        }
-
-      </ScrollView>
-    </View>
+        {locationLoading ? (
+          <View style={tw`justify-center items-center`}>
+            <Text>Waiting for location...</Text>
+          </View>
+        ) : (
+          <View style={tw`flex-row flex-wrap justify-center gap-5`}>
+            {posts?.map((post, index) => (
+              <CardHome key={index} post={post} navigation={navigation} />
+            ))}
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 }
