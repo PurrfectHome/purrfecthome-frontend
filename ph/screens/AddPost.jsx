@@ -135,7 +135,7 @@ export default function AddPost({ navigation, route }) {
     try {
       if (loading) return;
       console.log(data);
-      const response = await edit({
+      const response = await add({
         variables: data,
       });
       console.log(response);

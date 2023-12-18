@@ -7,7 +7,6 @@ import tw from "twrnc";
 export default function ImagePick({ setImageUrlAdd, editImg }) {
   const [image, setImages] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
-  console.log(editImg);
 
   useEffect(() => {
     const cek = async () => {
@@ -70,7 +69,9 @@ export default function ImagePick({ setImageUrlAdd, editImg }) {
     }
   };
 
-  let arrImg = [...imageUrl, ...editImg];
+  if (editImg) {
+    let arrImg = [...imageUrl, ...editImg];
+  }
 
   return (
     <>
