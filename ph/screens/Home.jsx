@@ -64,7 +64,9 @@ export default function Home({ navigation }) {
   const [breed, setBreed] = useState("");
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(true)
 
+  
   const { data, loading, error, refetch } = useQuery(POSTS, {
     variables: {
       breed: breed,
@@ -79,7 +81,10 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     if (data) {
-      setPosts(data?.postsByRadius);
+      setPosts(data.postsByRadius);
+      if (data?.postsByRadius) {
+        setLocationLoading(false)
+      } 
     }
   }, [data]);
 
@@ -114,6 +119,8 @@ export default function Home({ navigation }) {
     text = JSON.stringify(location);
   }
 
+  
+
   return (
     // PADDING DARI 5 => 2
     <View style={[tw`flex-1 p-2`, { backgroundColor: "white" }]}>
@@ -140,11 +147,16 @@ export default function Home({ navigation }) {
             onSelect={(b) => setBreed(b)}
           />
         </View>
-        <View style={tw`flex-row flex-wrap justify-center gap-5`}>
-          {posts?.map((post, index) => (
-            <CardHome key={index} post={post} navigation={navigation} />
-          ))}
-        </View>
+        {
+          locationLoading ?
+            <View style={tw`justify-center items-center`}><Text>Waiting for location...</Text></View> :
+            <View style={tw`flex-row flex-wrap justify-center gap-5`}>
+              {posts?.map((post, index) => (
+                <CardHome key={index} post={post} navigation={navigation} />
+              ))}
+            </View>
+        }
+
       </ScrollView>
     </View>
   );

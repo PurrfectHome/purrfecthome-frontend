@@ -35,10 +35,10 @@ const AVAILABLE = gql`
 
 const DELETE = gql`
   mutation DeletePost($postId: ID) {
-    DeletePost(PostId: $postId) {
-      code
-      message
-    }
+    deletePost(PostId: $postId) {
+    message
+    code
+  }
   }
 `;
 
@@ -59,6 +59,10 @@ export default function AdoptableCat({ navigation }) {
       console.log(data);
     }
   }, [data]);
+
+  const released = () => {
+    refetch()
+  }
 
   // DELETE
   const handleDelete = async (id) => {
@@ -114,7 +118,7 @@ export default function AdoptableCat({ navigation }) {
                   <Text style={{ color: "#92aae2" }}>{post.breed}</Text>
                   <View>
                     <TouchableOpacity style={{ marginTop: 5 }}>
-                      <ModalComponentRelease />
+                      <ModalComponentRelease postId={post._id} refetch={released}/>
                     </TouchableOpacity>
                   </View>
                 </View>
