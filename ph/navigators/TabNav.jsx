@@ -11,13 +11,13 @@ import { TouchableOpacity } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-const HeaderAdd = ({onPress}) => {
-  return(
-    <TouchableOpacity onPress={onPress} style={{marginRight: 10}}>
-      <Ionicons name='add' size={30} color={'white'}/>
+const HeaderAdd = ({ onPress }) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={{ marginRight: 10 }}>
+      <Ionicons name="add" size={30} color={"white"} />
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 export default function TabNav() {
   return (
@@ -50,12 +50,14 @@ export default function TabNav() {
       <Tab.Screen
         name="Home"
         component={Home}
-        options={({navigation}) => {
+        options={({ navigation }) => {
           return {
-            headerLeft: () => <Logo />,
-            headerTitle: "",
+            headerTitle: () => <Logo />,
             headerStyle: { backgroundColor: "#B0C3F0" },
-            headerRight: () => <HeaderAdd onPress={() => navigation.navigate('Add')}/>
+            headerRight: () => (
+              <HeaderAdd onPress={() => navigation.navigate("Add")} />
+            ),
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -65,31 +67,20 @@ export default function TabNav() {
         component={Inbox}
         options={() => {
           return {
-            headerLeft: () => <Logo />,
-            headerTitle: "",
+            headerTitle: () => <Logo />,
             headerStyle: { backgroundColor: "#B0C3F0" },
+            headerTitleAlign: "center",
           };
         }}
       />
-      {/* ADD */}
-      {/* <Tab.Screen
-        name="Add"
-        component={AddPost}
-        options={() => {
-          return {
-            headerShown: false,
-          };
-        }}
-      /> */}
-      {/* ADOPTABLE */}
       <Tab.Screen
         name="Adoptable"
         component={AdoptableCat}
         options={() => {
           return {
-            headerLeft: () => <Logo />,
-            headerTitle: "",
+            headerTitle: () => <Logo />,
             headerStyle: { backgroundColor: "#B0C3F0" },
+            headerTitleAlign: "center",
           };
         }}
       />

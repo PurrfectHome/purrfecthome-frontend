@@ -8,47 +8,99 @@ import {
   View,
 } from "react-native";
 
+import { gql, useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+
+const ALL_CONVO = gql`
+  query ConvosByUser {
+    convosByUser {
+      Conversation {
+        _id
+        user1 {
+          _id
+          fullname
+          username
+          email
+        }
+        user2 {
+          _id
+          fullname
+          username
+          email
+        }
+        Messages {
+          _id
+          message
+          ConversationID
+          User1
+        }
+      }
+      UserLoggedIn
+    }
+  }
+`;
+
 export default function Inbox({ navigation }) {
+  const { data, loading, error, refetch } = useQuery(ALL_CONVO);
+  const [convo, setConvo] = useState([]);
+  const [login, setUserLogin] = useState("");
+  const focus = useIsFocused();
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setConvo(data.convosByUser.Conversation);
+      setUserLogin(data.convosByUser.UserLoggedIn);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (focus) {
+      refetch();
+    }
+  }, [focus, refetch]);
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#F3F7FF" }}>
       {/* HEADER */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate("ChatRoom")}
-        style={styles.tOp}
-      >
-        <View style={styles.pfp}>
-          <View style={{ flexDirection: "row", flex: 4 }}>
-            <Image
-              source={require("../img/catie.jpeg")}
-              style={{ height: 40, width: 40, borderRadius: 32.5 }}
-            />
-            <View style={styles.uname}>
-              <Text style={{ fontWeight: "bold" }}>Caca da Breeder</Text>
-              <Text style={styles.msg}>
-                Hello, I would like to adopt Daisy...
-              </Text>
+      {convo?.map((c, i) => (
+        <TouchableOpacity
+          key={i}
+          onPress={() => navigation.navigate("ChatRoom", { id: c._id })}
+          style={styles.tOp}
+        >
+          <View style={styles.pfp}>
+            <View style={{ flexDirection: "row", flex: 4 }}>
+              <Image
+                source={{
+                  uri: `https://www.gravatar.com/avatar/${c._id}?s=200&r=pg&d=robohash`,
+                }}
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 32.5,
+                  backgroundColor: "white",
+                  borderWidth: 0.5,
+                  borderColor: "#DC5B93",
+                }}
+              />
+              <View style={styles.uname}>
+                <Text style={{ fontWeight: "bold" }}>
+                  {c.user1._id == login
+                    ? `${c.user2.fullname}`
+                    : `${c.user1.fullname}`}
+                </Text>
+                <Text style={styles.msg}>
+                  {c.Messages.length > 0
+                    ? `${c.Messages[c.Messages.length - 1].message}`
+                    : ``}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </TouchableOpacity>
-
-      {/* PART KEDUA */}
-      <TouchableOpacity style={styles.tOp}>
-        <View style={styles.pfp}>
-          <View style={{ flexDirection: "row", flex: 4 }}>
-            <Image
-              source={require("../img/catie.jpeg")}
-              style={{ height: 40, width: 40, borderRadius: 32.5 }}
-            />
-            <View style={styles.uname}>
-              <Text style={{ fontWeight: "bold" }}>Caca da Breeder</Text>
-              <Text style={styles.msg}>
-                Hello, I would like to adopt Daisy...
-              </Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      ))}
     </ScrollView>
   );
 }
