@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  useWindowDimensions,
 } from "react-native";
 import tw from "twrnc";
 import CardHome from "../components/CardHome";
@@ -66,6 +67,7 @@ export default function Home({ navigation }) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [locationLoading, setLocationLoading] = useState(true);
+  const { height, width } = useWindowDimensions(); // => tambahan mas iam
 
   const { data, loading, error, refetch } = useQuery(POSTS, {
     variables: {
@@ -75,7 +77,7 @@ export default function Home({ navigation }) {
     },
   });
 
-  console.log(data, loading, error);
+  // console.log(data, loading, error);
   const [posts, setPosts] = useState([]);
   const focus = useIsFocused();
 
@@ -88,8 +90,7 @@ export default function Home({ navigation }) {
     }
   }, [data]);
 
-  // FIND RADIUS
-
+  // FIND RADIUS :
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -99,7 +100,7 @@ export default function Home({ navigation }) {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location);
+      // console.log(location);
       if (Location) {
         setLocation(location);
       }
@@ -120,13 +121,29 @@ export default function Home({ navigation }) {
   }
 
   return (
-    // PADDING DARI 5 => 2
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={[tw`flex-1 p-2`, { backgroundColor: "white" }]}>
+        {breed ? (
+          <View style={[tw`flex-row justify-between px-3 pb-3`]}>
+            <View style={[tw`flex-row`, { gap: 3 }]}>
+              <Text>filtered by</Text>
+              <Text style={{ color: "#92aae2" }}>{breed}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => setBreed("")}
+              style={[tw`flex-row items-center`, { gap: 2 }]}
+            >
+              <Ionicons name="reload-outline" size={18} color={"#DC5B93"} />
+              <Text style={{ color: "#DC5B93" }}>reset</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          ""
+        )}
         <View style={tw`justify-center items-center mb-5`}>
           <SelectDropdown
             buttonStyle={{
-              width: 170,
+              width: width * 0.9,
               height: 40,
               elevation: 5,
               backgroundColor: "#F3F7FF",
@@ -135,7 +152,7 @@ export default function Home({ navigation }) {
               borderWidth: 0.5,
             }}
             data={breeds}
-            defaultButtonText="breed"
+            defaultButtonText="All Breed" // GINI BUKAN ?
             dropdownStyle={{
               backgroundColor: "white",
               borderRadius: 10,
@@ -145,26 +162,18 @@ export default function Home({ navigation }) {
             onSelect={(b) => setBreed(b)}
           />
         </View>
-        {
-          breed ?
-            <View style={[tw`flex-row justify-between px-3 pb-3`]}>
-              <View style={[tw`flex-row`, {gap: 3}]}>
-                <Text>filtered by</Text>
-                <Text style={{color: '#92aae2'}}>{breed}</Text>
-              </View>
-              <TouchableOpacity onPress={() => setBreed('')} style={[tw`flex-row items-center`, {gap: 2}]}>
-                <Ionicons name="reload-outline" size={18} color={'#DC5B93'}/>
-                <Text style={{color: '#DC5B93'}}>reset</Text>
-              </TouchableOpacity>
-            </View> :
-            ''
-        }
+
         {locationLoading ? (
           <View style={tw`justify-center items-center`}>
             <Text>Waiting for location...</Text>
           </View>
+        ) : posts?.length === 0 ? (
+          <View style={tw`justify-center items-center mt-20`}>
+            <Text style={{ color: "#B0C3F0" }}>
+              There are no cats listed for adoption
+            </Text>
+          </View>
         ) : (
-          posts?.length === 0 ? <View style={tw`justify-center items-center mt-20`}><Text style={{color: '#B0C3F0'}}>There are no cats listed for adoption</Text></View> :
           <View style={tw`flex-row flex-wrap gap-3`}>
             {posts?.map((post, index) => (
               <CardHome key={index} post={post} navigation={navigation} />
