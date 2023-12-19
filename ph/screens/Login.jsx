@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LoginContext } from "../context/LoginContext";
 import { gql, useMutation } from "@apollo/client";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const LOGIN = gql`
   mutation Login($username: String, $password: String) {
@@ -27,6 +28,16 @@ export default function Login({ navigation }) {
     username: "",
     password: "",
   });
+
+  const [showAlert, setShowAlert] = useState(false);
+
+ const showAlertHandler = () => {
+    setShowAlert(true);
+ };
+
+ const hideAlertHandler = () => {
+    setShowAlert(false);
+ };
 
   const [login, { data, loading, error }] = useMutation(LOGIN);
 
@@ -48,14 +59,14 @@ export default function Login({ navigation }) {
       console.log(data);
       await loginAction("token", data.login.accessToken);
     } catch (error) {
-      console.log(error);
+      setShowAlert(true);
     }
   };
 
   // console.log(data, error, loading);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
         <View
           style={{
@@ -145,6 +156,21 @@ export default function Login({ navigation }) {
             style={{ marginTop: 20, width: 300, height: 40 }}
           />
         </View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Error"
+          message="Invalid username/password"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="Back"
+          confirmButtonColor="#DC5B93"
+          onCancelPressed={hideAlertHandler}
+          onConfirmPressed={hideAlertHandler}
+        />
       </ScrollView>
     </SafeAreaView>
   );

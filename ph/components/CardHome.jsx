@@ -1,13 +1,15 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function CardHome({ post, navigation }) {
+  const { height, width } = useWindowDimensions()
+  
   return (
     <>
       <View
         style={[
-          tw`h-60 w-4/9`,
+          tw`h-60`,
           {
             backgroundColor: "#F3F7FF",
             borderRadius: 10,
@@ -17,6 +19,7 @@ export default function CardHome({ post, navigation }) {
             shadowOffset: { width: 0, height: 2 },
             elevation: 5,
             paddingBottom: 10,
+            width: width * 0.46
           },
         ]}
       >
@@ -35,7 +38,7 @@ export default function CardHome({ post, navigation }) {
             {post.gender === "female" ? (
               <Ionicons name="female" size={20} style={{ color: "#DC5B93" }} />
             ) : (
-              <Ionicons name="male" size={20} style={{ color: "#DC5B93" }} />
+              <Ionicons name="male" size={20} style={{ color: "#92aae2" }} />
             )}
           </View>
           <Text style={{ color: "#849ACE" }}>{post.breed}</Text>

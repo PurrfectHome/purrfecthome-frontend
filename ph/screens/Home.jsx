@@ -13,6 +13,7 @@ import { gql, useQuery } from "@apollo/client";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const POSTS = gql`
   query PostsByRadius($breed: String, $lat: Float, $long: Float) {
@@ -144,12 +145,27 @@ export default function Home({ navigation }) {
             onSelect={(b) => setBreed(b)}
           />
         </View>
+        {
+          breed ?
+            <View style={[tw`flex-row justify-between px-3 pb-3`]}>
+              <View style={[tw`flex-row`, {gap: 3}]}>
+                <Text>filtered by</Text>
+                <Text style={{color: '#92aae2'}}>{breed}</Text>
+              </View>
+              <TouchableOpacity onPress={() => setBreed('')} style={[tw`flex-row items-center`, {gap: 2}]}>
+                <Ionicons name="reload-outline" size={18} color={'#DC5B93'}/>
+                <Text style={{color: '#DC5B93'}}>reset</Text>
+              </TouchableOpacity>
+            </View> :
+            ''
+        }
         {locationLoading ? (
           <View style={tw`justify-center items-center`}>
             <Text>Waiting for location...</Text>
           </View>
         ) : (
-          <View style={tw`flex-row flex-wrap justify-center gap-5`}>
+          posts?.length === 0 ? <View style={tw`justify-center items-center mt-20`}><Text style={{color: '#B0C3F0'}}>There are no cats listed for adoption</Text></View> :
+          <View style={tw`flex-row flex-wrap gap-3`}>
             {posts?.map((post, index) => (
               <CardHome key={index} post={post} navigation={navigation} />
             ))}
