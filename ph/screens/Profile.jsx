@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 const PROFILE = gql`
   query UsersProfile {
-  usersProfile {
+    usersProfile {
     _id
     fullname
     username
@@ -40,6 +41,11 @@ const PROFILE = gql`
       photo
       createdAt
       updatedAt
+      adopter {
+        _id
+        fullname
+        username
+      }
     }
     Adoption {
       _id
@@ -50,7 +56,6 @@ const PROFILE = gql`
       gender
       color
       description
-      AdopterId
       PosterId
       InformationId
       status
@@ -58,6 +63,7 @@ const PROFILE = gql`
       photo
       createdAt
       updatedAt
+      AdopterId
     }
     accountType
     createdAt
@@ -71,6 +77,7 @@ export default function Profile({ navigation }) {
   const [profile, setProfile] = useState('')
   const { data, loading, error, refetch } = useQuery(PROFILE)
   const isFocused = useIsFocused()
+  const { height, width } = useWindowDimensions()
 
   useEffect(() => {
     if (data) {
@@ -79,10 +86,14 @@ export default function Profile({ navigation }) {
   }, [data]);
 
   useEffect(() => {
-    if(isFocused) {
+    if (isFocused) {
       refetch()
     }
-  },[isFocused, refetch])
+  }, [isFocused, refetch])
+
+  if (!loading) {
+    console.log(data.usersProfile)
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -99,7 +110,7 @@ export default function Profile({ navigation }) {
 
       <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Image source={{uri: `https://www.gravatar.com/avatar/${profile._id}?s=200&r=pg&d=robohash`}} style={styles.pfp} />
+          <Image source={{ uri: `https://www.gravatar.com/avatar/${profile._id}?s=200&r=pg&d=robohash` }} style={styles.pfp} />
         </View>
         <View style={{ marginTop: 80 }}>
           <View style={tw`flex-row justify-center items-center gap-1`}>
@@ -177,23 +188,69 @@ export default function Profile({ navigation }) {
           </TouchableOpacity>
         </View>
         <ScrollView>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent: 'center', alignItems: 'center' }}>
+          <View style={[{ flex: 1, flexDirection: "row", flexWrap: "wrap", paddingLeft: 5, alignItems: 'center', marginVertical: 10, gap: 8 }]}>
             {more ? (
               <>
                 {
                   profile?.Release?.map((el, i) => (
                     <TouchableOpacity key={i}
-                      style={styles.gridPost}
-                      onPress={() =>  navigation.navigate("Detail", {
+                      style={
+                        [
+                          { width: width * 0.47, 
+                            height: 73, elevation: 5, 
+                            backgroundColor: 'white', 
+                            overflow: 'hidden',
+                            shadowColor: "#000000",
+                            shadowOpacity: 0.3,
+                            shadowRadius: 2,
+                            shadowOffset: { width: 0, height: 2 } 
+                          }, tw`p-1 rounded-lg flex-row gap-1 justify-between`
+                        ]
+                      }
+                      onPress={() => navigation.navigate("Detail", {
                         id: el._id,
                       })}
                     >
-                      <Image
-                        source={{
-                          uri: `${el.photo[0]}`,
-                        }}
-                        style={[tw`w-full h-full`]}
-                      />
+                      <View style={[tw`flex-row gap-2 w-3/4`]}>
+                        <Image source={{ uri: el.photo[0] }} style={{ height: 65, width: 65, borderRadius: 5 }} />
+                        <View style={[tw`justify-between`]}>
+                          <View>
+                            <View style={[tw`flex-row gap-1`]}>
+                              <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{el.name}</Text>
+                              {el.gender === "female" ? (
+                                <Ionicons
+                                  name="female"
+                                  size={12}
+                                  style={{ color: "#DC5B93" }}
+                                />
+                              ) : (
+                                <Ionicons
+                                  name="male"
+                                  size={12}
+                                  style={{ color: "#92aae2" }}
+                                />
+                              )}
+                            </View>
+                            <Text style={{fontSize: 8, color: '#aabbe6'}}>{el.breed}</Text>
+                          </View>
+                          <View style={[{}]}>
+                            {
+                              el.adopter ?
+                              <View>
+                              <Text style={{ fontSize: 7 }}>Adopted by: </Text>
+                                <Text style={{ fontSize: 10, color: '#aabbe6' }}>{el.adopter.fullname}</Text> 
+                                </View> :
+                                // <Text> - </Text> 
+                                ''
+                            }
+                          </View>
+                        </View>
+                      </View>
+                      <View style={[tw`pb-5 pl-26`, { position: 'absolute' }]}>
+                        <View style={[tw`justify-center items-center`, { opacity: 0.8, width: 100, height: 13, backgroundColor: el.status === 'adopted' ? '#DC5B93' : '#B0C3F0', marginTop: 10, borderRadius: 20, transform: [{ rotate: '45deg' }] }]}>
+                          <Text style={{ fontSize: 8, color: el.status === 'adopted' ? 'white' : 'black' }}>{el.status}</Text>
+                        </View>
+                      </View>
                     </TouchableOpacity>
                   ))
                 }
@@ -203,17 +260,49 @@ export default function Profile({ navigation }) {
                 {
                   profile?.Adoption?.map((el, i) => (
                     <TouchableOpacity key={i}
-                      style={styles.gridPost}
-                      onPress={() =>  navigation.navigate("Detail", {
+                      style={
+                        [
+                          { width: width * 0.47, 
+                            height: 73, 
+                            elevation: 5, 
+                            backgroundColor: 'white', 
+                            overflow: 'hidden',
+                            shadowColor: "#000000",
+                            shadowOpacity: 0.3,
+                            shadowRadius: 2,
+                            shadowOffset: { width: 0, height: 2 } 
+                          }, 
+                          tw`p-1 rounded-lg flex-row gap-1 justify-between`
+                        ]
+                      }
+                      onPress={() => navigation.navigate("Detail", {
                         id: el._id,
                       })}
                     >
-                      <Image
-                        source={{
-                          uri: `${el.photo[0]}`,
-                        }}
-                        style={[tw`w-full h-full`]}
-                      />
+                      <View style={[tw`flex-row gap-2 w-3/4`]}>
+                        <Image source={{ uri: el.photo[0] }} style={{ height: 65, width: 65, borderRadius: 5 }} />
+                        <View style={[tw`justify-between`]}>
+                          <View>
+                            <View style={[tw`flex-row gap-1`]}>
+                              <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{el.name}</Text>
+                              {el.gender === "female" ? (
+                                <Ionicons
+                                  name="female"
+                                  size={12}
+                                  style={{ color: "#DC5B93" }}
+                                />
+                              ) : (
+                                <Ionicons
+                                  name="male"
+                                  size={12}
+                                  style={{ color: "#92aae2" }}
+                                />
+                              )}
+                            </View>
+                            <Text style={{fontSize: 8, color: '#aabbe6'}}>{el.breed}</Text>
+                          </View>
+                        </View>
+                      </View>
                     </TouchableOpacity>
                   ))
                 }
@@ -247,6 +336,7 @@ const styles = StyleSheet.create({
     borderColor: "#8596BE",
     position: "absolute",
     zIndex: 2,
+    backgroundColor: 'white'
   },
   name: {
     fontWeight: "bold",

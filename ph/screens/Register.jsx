@@ -71,108 +71,110 @@ export default function Register({ navigation }) {
         backgroundColor: "#DBE4FA",
       }}
     >
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 100,
-          marginBottom: 50,
-        }}
-      >
-        <Text
-          style={{
-            marginTop: 50,
-            fontSize: 30,
-            color: "#8596BE",
-            fontWeight: "bold",
-          }}
-        >
-          REGISTER
-        </Text>
-      </View>
-      <View style={{ gap: 10 }}>
+      <View style={{ justifyContent: 'center', alignContent: 'center' }}>
         <View
           style={{
-            flexDirection: "row",
-            marginHorizontal: 30,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 100,
+            marginBottom: 50,
           }}
         >
-          <TextInput
-            value={input.fullname}
-            style={styles.textInput}
-            placeholder="full name"
-            onChangeText={(text) => handleChange("fullname", text)}
-          />
-        </View>
-        <View
-          style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
-        >
-          <TextInput
-            value={input.username}
-            style={styles.textInput}
-            placeholder="username"
-            onChangeText={(text) => handleChange("username", text)}
-          />
-        </View>
-        <View
-          style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
-        >
-          <TextInput
-            value={input.email}
-            style={styles.textInput}
-            placeholder="email"
-            onChangeText={(text) => handleChange("email", text)}
-          />
-        </View>
-        <View
-          style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
-        >
-          <TextInput
-            value={input.password}
-            style={styles.textInput}
-            placeholder="password"
-            onChangeText={(text) => handleChange("password", text)}
-            secureTextEntry={true}
-          />
-        </View>
-      </View>
-      <TouchableOpacity style={styles.regButton} onPress={handleRegister}>
-        {loading ? (
-          <ActivityIndicator color="#DC5B93" />
-        ) : (
           <Text
             style={{
-              color: "white",
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-          >
-            Register
-          </Text>
-        )}
-      </TouchableOpacity>
-      <View
-        style={{
-          alignItems: "center",
-          marginTop: 20,
-          paddingBottom: 10,
-          flexDirection: "row",
-        }}
-      >
-        <Text style={{ marginStart: 70 }}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 16,
+              marginTop: 50,
+              fontSize: 30,
               color: "#8596BE",
-              marginLeft: 5,
+              fontWeight: "bold",
             }}
           >
-            Login
+            REGISTER
           </Text>
+        </View>
+        <View style={{ gap: 10 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 30,
+            }}
+          >
+            <TextInput
+              value={input.fullname}
+              style={styles.textInput}
+              placeholder="full name"
+              onChangeText={(text) => handleChange("fullname", text)}
+            />
+          </View>
+          <View
+            style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
+          >
+            <TextInput
+              value={input.username}
+              style={styles.textInput}
+              placeholder="username"
+              onChangeText={(text) => handleChange("username", text)}
+            />
+          </View>
+          <View
+            style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
+          >
+            <TextInput
+              value={input.email}
+              style={styles.textInput}
+              placeholder="email"
+              onChangeText={(text) => handleChange("email", text)}
+            />
+          </View>
+          <View
+            style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
+          >
+            <TextInput
+              value={input.password}
+              style={styles.textInput}
+              placeholder="password"
+              onChangeText={(text) => handleChange("password", text)}
+              secureTextEntry={true}
+            />
+          </View>
+        </View>
+        <TouchableOpacity style={styles.regButton} onPress={handleRegister}>
+          {loading ? (
+            <ActivityIndicator color="#DC5B93" />
+          ) : (
+            <Text
+              style={{
+                color: "white",
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: 18,
+              }}
+            >
+              Register
+            </Text>
+          )}
         </TouchableOpacity>
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: 20,
+            paddingBottom: 10,
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ marginStart: 70 }}>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                color: "#8596BE",
+                marginLeft: 5,
+              }}
+            >
+              Login
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );

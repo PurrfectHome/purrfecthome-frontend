@@ -107,7 +107,7 @@ export default function DetailPost({ navigation, route }) {
                       <Ionicons
                         name="male"
                         size={20}
-                        style={{ color: "#DC5B93" }}
+                        style={{ color: "#92aae2" }}
                       />
                     )}
                   </View>
