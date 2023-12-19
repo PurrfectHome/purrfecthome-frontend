@@ -1,14 +1,15 @@
+import { useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 
-export default function ChatList({ userMsg, handleSetMsg, userLogin }) {
-  // console.log(userMsg, ">>>> dr CHATLIST");
-  console.log(userLogin, ">>>> dr CHATLIST");
+export default function ChatList({ userMsg, userLogin }) {
+  const scrollViewRef = useRef();
+  // console.log(userMsg, '<< msg')
 
   return (
-    <ScrollView style={{ backgroundColor: "#F3F7FF" }}>
+    <ScrollView ref={scrollViewRef} onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })} style={{ backgroundColor: "#F3F7FF" }}>
       {/* MESSAGE */}
       <View style={{ paddingVertical: 10, marginVertical: 5, gap: 10 }}>
-        {userMsg?.Messages?.map((m, i) =>
+        {userMsg?.map((m, i) =>
           m.User1 === userLogin ? (
             <>
               {/* RIGHT */}

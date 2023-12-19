@@ -13,9 +13,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import ChatList from "../components/ChatList";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import { Ionicons } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 
 const ADD_MSG = gql`
   mutation AddMsg($message: String, $conversationId: ID) {
@@ -72,39 +73,46 @@ export default function ChatRoom({ navigation, route }) {
       convoId: id,
     },
   });
-  const [messages, setMessages] = useState([]);
+
   const [socket, setSocket] = useState(null);
   const [userMsg, setUserMsg] = useState([]);
-
-  console.log(id, ">>> ID CONVO");
   const handleMessage = async () => {
     try {
+      socket.emit("sendMessage", {
+        User1: login,
+        message: message
+      })
       const response = await addMsg({
         variables: { message: message, conversationId: id },
       });
 
-      setMessages([...messages, message]);
+      setUserMsg([...userMsg, {
+        User1: login,
+        message: message
+      }]);
       r();
       setMessage("");
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(d, e, l);
-
-  const handleSetMsg = (msg) => {
-    setMessages([...messages, msg]);
-  };
 
   useEffect(() => {
     if (d) {
-      setUserMsg(d?.convoById?.Conversation);
+      setUserMsg(d?.convoById?.Conversation?.Messages);
       setUserLogin(d?.convoById?.UserLoggedIn);
-
-      console.log(d?.convoById, "DARI USEEFFECT");
-      console.log(d?.convoById?.Conversation.user1, ">>> user 1");
     }
   }, [d]);
+
+  useEffect(() => {
+    const socket = io('https://46c8-2001-448a-3021-571f-1d86-c7c6-e227-3e6c.ngrok-free.app/')
+    setSocket(socket)
+
+    socket.on('new-message', (payload) => {
+      setUserMsg([...userMsg, payload])
+      console.log(payload)
+    })
+  }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: "#F3F7FF" }}>
@@ -180,9 +188,8 @@ export default function ChatRoom({ navigation, route }) {
       ) : (
         <ChatList
           userMsg={userMsg}
-          handleSetMsg={handleSetMsg}
           userLogin={login}
-        />
+        />  
       )}
 
       {/* CHAT INPUT START HERE! */}
@@ -213,15 +220,6 @@ export default function ChatRoom({ navigation, route }) {
               alignItems: "center",
             }}
           >
-            <TouchableOpacity
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                paddingLeft: 15,
-              }}
-            >
-              <FontAwesome name="picture-o" size={20} color="#DC5B93" />
-            </TouchableOpacity>
             <TextInput
               multiline
               placeholder="Type Message..."
