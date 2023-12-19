@@ -137,22 +137,24 @@ export default function Register({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity style={styles.regButton} onPress={handleRegister}>
-          {loading ? (
-            <ActivityIndicator color="#DC5B93" />
-          ) : (
-            <Text
-              style={{
-                color: "white",
-                textAlign: "center",
-                fontWeight: "bold",
-                fontSize: 18,
-              }}
-            >
-              Register
-            </Text>
-          )}
-        </TouchableOpacity>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableOpacity style={styles.regButton} onPress={handleRegister}>
+            {loading ? (
+              <ActivityIndicator color="#DC5B93" />
+            ) : (
+              <Text
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: 18,
+                }}
+              >
+                Register
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             alignItems: "center",
