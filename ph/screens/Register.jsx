@@ -149,7 +149,7 @@ export default function Register({ navigation }) {
             />
           </View>
         </View>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
           <TouchableOpacity style={styles.regButton} onPress={handleRegister}>
             {loading ? (
               <ActivityIndicator color="#DC5B93" />
