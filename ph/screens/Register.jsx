@@ -71,7 +71,7 @@ export default function Register({ navigation }) {
         backgroundColor: "#DBE4FA",
       }}
     >
-      <View style={{ justifyContent: 'center', alignContent: 'center' }}>
+      <View style={{ justifyContent: "center", alignContent: "center" }}>
         <View
           style={{
             justifyContent: "center",
@@ -106,7 +106,11 @@ export default function Register({ navigation }) {
             />
           </View>
           <View
-            style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 30,
+              marginTop: 15,
+            }}
           >
             <TextInput
               value={input.username}
@@ -116,7 +120,11 @@ export default function Register({ navigation }) {
             />
           </View>
           <View
-            style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 30,
+              marginTop: 15,
+            }}
           >
             <TextInput
               value={input.email}
@@ -126,7 +134,11 @@ export default function Register({ navigation }) {
             />
           </View>
           <View
-            style={{ flexDirection: "row", marginHorizontal: 30, marginTop: 15 }}
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 30,
+              marginTop: 15,
+            }}
           >
             <TextInput
               value={input.password}
@@ -193,15 +205,7 @@ const styles = StyleSheet.create({
     width: 287,
     height: 51,
   },
-  //   icon: {
-  //     justifyContent: "center",
-  //     alignItems: "center",
-  //     backgroundColor: "#F9FAFF",
-  //     width: 50,
-  //     borderBottomLeftRadius: 15,
-  //     borderTopLeftRadius: 15,
-  //     elevation: 2,
-  //   },
+
   regButton: {
     backgroundColor: "#B2C9FF",
     paddingVertical: 14,
@@ -211,7 +215,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: 300,
     height: 51,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

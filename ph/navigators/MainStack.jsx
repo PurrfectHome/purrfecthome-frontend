@@ -6,7 +6,7 @@ import Register from "../screens/Register";
 import TabNav from "./TabNav";
 import Logo from "../components/Logo";
 import ChatRoom from "../screens/ChatRoom";
-import ChatProfile from "../components/ChatProfile";
+
 import DetailPost from "../screens/DetailPost";
 import Logout from "../components/Logout";
 import AddPost from "../screens/AddPost";
@@ -42,6 +42,7 @@ export default function MainStack() {
                   headerStyle: {
                     backgroundColor: "#B0C3F0",
                   },
+                  headerTitleAlign: "center",
                 };
               }}
             />
@@ -50,8 +51,7 @@ export default function MainStack() {
               component={ChatRoom}
               options={() => {
                 return {
-                  headerTitle: () => <ChatProfile />,
-                  headerStyle: { backgroundColor: "#B0C3F0" },
+                  headerShown: false,
                 };
               }}
             />

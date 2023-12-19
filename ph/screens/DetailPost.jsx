@@ -5,13 +5,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  useWindowDimensions,
 } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useEffect, useState } from "react";
 import CarouselImage from "../components/carousel";
 import ModalComponent from "../components/modal";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const DETAIL_POST = gql`
   query PostsById($postId: String) {
@@ -62,19 +63,32 @@ const DETAIL_POST = gql`
   }
 `;
 
+const ADD_CONVO = gql`
+  mutation AddConvo($userId2: ID) {
+    addConvo(UserId2: $userId2) {
+      code
+      data
+      message
+    }
+  }
+`;
+
 export default function DetailPost({ navigation, route }) {
   const [more, setMore] = useState(false);
   const [post, setPost] = useState("");
   const { id } = route.params;
+  const { height, width } = useWindowDimensions();
 
   const { data, error, loading, refetch } = useQuery(DETAIL_POST, {
     variables: { postId: id },
   });
 
+  const [addConvo, { data: d, error: e, loading: l }] = useMutation(ADD_CONVO);
+
   useEffect(() => {
     if (data) {
       setPost(data.postsById);
-      console.log(data);
+      // console.log(data);
     }
   }, [data]);
 
@@ -82,12 +96,42 @@ export default function DetailPost({ navigation, route }) {
   if (data) {
     desc = post?.description?.substring(0, 150);
   }
+
+  // ADD NEW CONVERSATION:
+  const handleAddConvo = async (PosterId) => {
+    console.log(PosterId, ">>> USER ID");
+    try {
+      const response = await addConvo({
+        variables: { userId2: PosterId },
+      });
+      console.log(response);
+      if (d) {
+        navigation.navigate("ChatRoom", { id: d.addConvo.data });
+      }
+    } catch (error) {
+      console.log(error.message);
+      const id = error.message;
+      if (id) {
+        navigation.navigate("ChatRoom", { id: id });
+      }
+    }
+  };
+  console.log(d, l, e);
+
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
         <View>
           {loading ? (
-            <ActivityIndicator />
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: height * 0.35,
+              }}
+            >
+              <ActivityIndicator size={50} />
+            </View>
           ) : (
             <>
               <CarouselImage image={post?.photo} />
@@ -112,7 +156,7 @@ export default function DetailPost({ navigation, route }) {
                     )}
                   </View>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("ChatRoom")}
+                    onPress={() => handleAddConvo(post.PosterId)}
                   >
                     <Ionicons
                       name="chatbubble-ellipses-outline"
