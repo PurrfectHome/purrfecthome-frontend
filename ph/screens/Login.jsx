@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LoginContext } from "../context/LoginContext";
 import { gql, useMutation } from "@apollo/client";
-import AwesomeAlert from 'react-native-awesome-alerts';
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const LOGIN = gql`
   mutation Login($username: String, $password: String) {
@@ -31,13 +31,13 @@ export default function Login({ navigation }) {
 
   const [showAlert, setShowAlert] = useState(false);
 
- const showAlertHandler = () => {
+  const showAlertHandler = () => {
     setShowAlert(true);
- };
+  };
 
- const hideAlertHandler = () => {
+  const hideAlertHandler = () => {
     setShowAlert(false);
- };
+  };
 
   const [login, { data, loading, error }] = useMutation(LOGIN);
 
@@ -66,7 +66,14 @@ export default function Login({ navigation }) {
   // console.log(data, error, loading);
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#DBE4FA' }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#DBE4FA",
+      }}
+    >
       <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
         <View
           style={{
@@ -76,7 +83,7 @@ export default function Login({ navigation }) {
         >
           <Image
             source={require("../img/logo.png")}
-            style={{ marginTop: 50, width: 180, height: 130, marginBottom: 0 }}
+            style={{ marginTop: 50, width: 180, height: 140, marginBottom: 0 }}
           />
           <Text
             style={{
