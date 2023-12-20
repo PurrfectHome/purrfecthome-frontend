@@ -194,7 +194,7 @@ export default function ModalComponentRelease({ postId, refetch }) {
 
         <TouchableHighlight onPress={toggleModal}>
           <View
-            style={[tw`p-2 mr-3 rounded-md`, { backgroundColor: "#92aae2" }]}
+            style={[tw`px-2 py-1 mr-1 rounded-md`, { backgroundColor: "#92aae2" }]}
           >
             <Text style={{ color: "white" }}>Release</Text>
           </View>

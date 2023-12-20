@@ -3,7 +3,6 @@ import { ScrollView, Text, View } from "react-native";
 
 export default function ChatList({ userMsg, userLogin }) {
   const scrollViewRef = useRef();
-  // console.log(userMsg, '<< msg')
 
   return (
     <ScrollView ref={scrollViewRef} onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })} style={{ backgroundColor: "#F3F7FF" }}>
@@ -14,7 +13,7 @@ export default function ChatList({ userMsg, userLogin }) {
             <>
               {/* RIGHT */}
               <View
-                key={i}
+                key={m._id}
                 style={{
                   backgroundColor: "#B0C3F0",
                   maxWidth: "80%",
@@ -48,7 +47,7 @@ export default function ChatList({ userMsg, userLogin }) {
             <>
               {/* LEFT */}
               <View
-                key={i}
+                key={m._id + i}
                 style={{
                   backgroundColor: "white",
                   maxWidth: "80%",

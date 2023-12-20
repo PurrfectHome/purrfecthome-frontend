@@ -66,7 +66,7 @@ export default function Login({ navigation }) {
   // console.log(data, error, loading);
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#DBE4FA' }}>
       <ScrollView style={{ flex: 1, backgroundColor: "#DBE4FA" }}>
         <View
           style={{
@@ -76,7 +76,7 @@ export default function Login({ navigation }) {
         >
           <Image
             source={require("../img/logo.png")}
-            style={{ marginTop: 50, width: 200, height: 200, marginBottom: 0 }}
+            style={{ marginTop: 50, width: 180, height: 130, marginBottom: 0 }}
           />
           <Text
             style={{
@@ -144,7 +144,7 @@ export default function Login({ navigation }) {
             <Text style={styles.regisText}>Register</Text>
           </TouchableOpacity>
         </View>
-        <View
+        {/* <View
           style={{
             alignItems: "center",
             marginTop: 5,
@@ -155,7 +155,7 @@ export default function Login({ navigation }) {
             source={require("../img/goo.png")}
             style={{ marginTop: 20, width: 300, height: 40 }}
           />
-        </View>
+        </View> */}
         <AwesomeAlert
           show={showAlert}
           showProgress={false}
