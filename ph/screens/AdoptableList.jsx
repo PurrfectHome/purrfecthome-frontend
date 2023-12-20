@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  useWindowDimensions,
 } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -50,10 +51,10 @@ export default function AdoptableCat({ navigation }) {
     },
   });
 
-  console.log(data, loading, error);
   const [posts, setPosts] = useState([]);
   const [del, { data: d, loading: l, error: e }] = useMutation(DELETE);
   const focus = useIsFocused();
+  const { height, width } = useWindowDimensions()
 
   useEffect(() => {
     if (data) {
@@ -107,7 +108,7 @@ export default function AdoptableCat({ navigation }) {
                 Here, you can edit your cats profiles or mark them as adopted
                 when they find their{" "}
                 <Text
-                  style={{ fontSize: 12, fontWeight: "bold", color: "#aabbe6" }}
+                  style={{ fontSize: 12, fontWeight: "bold", color: "white" }}
                 >
                   purrfectHome
                 </Text>
@@ -118,14 +119,14 @@ export default function AdoptableCat({ navigation }) {
             </Text>
             <View style={tw`py-1 pl-2`}>
               <Text style={{ color: "white", fontSize: 11 }}>
-                - Press <Text style={{ color: "#aabbe6" }}>Release</Text> button
+                - Press <Text style={{ color: "white", fontWeight: 'bold' }}>Release</Text> button
               </Text>
               <Text style={{ color: "white", fontSize: 11 }}>
-                - <Text style={{ color: "#aabbe6" }}>Search</Text> user who
+                - <Text style={{ color: "white", fontWeight: 'bold' }}>Search</Text> user who
                 adopted
               </Text>
               <Text style={{ color: "white", fontSize: 11 }}>
-                - Press <Text style={{ color: "#aabbe6" }}>add</Text> button to
+                - Press <Text style={{ color: "white", fontWeight: 'bold' }}>add</Text> button to
                 release your cat
               </Text>
             </View>
@@ -143,7 +144,9 @@ export default function AdoptableCat({ navigation }) {
               style={{
                 backgroundColor: "white",
                 flexDirection: "row",
-                height: 103,
+                height: height * 0.158,
+                elevation: 5,
+                borderRadius: 7
               }}
             >
               <View style={tw`p-3`}>
@@ -157,7 +160,7 @@ export default function AdoptableCat({ navigation }) {
               <View style={tw`flex-row justify-between flex-1 my-3`}>
                 <View>
                   <View style={tw`flex-row gap-1 items-center`}>
-                    <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+                    <Text style={{ fontSize: 23, fontWeight: "bold" }}>
                       {post.name}
                     </Text>
                     {post.gender === "female" ? (
@@ -197,13 +200,13 @@ export default function AdoptableCat({ navigation }) {
                       <TouchableOpacity onPress={() => handleDelete(post._id)}>
                         <Ionicons
                           name="trash-outline"
-                          size={25}
+                          size={20}
                           color={"red"}
                         />
                       </TouchableOpacity>
                     </View>
                     {/* RELEASE */}
-                    <View style={tw`mt-6 ml-2`}>
+                    <View style={tw`mt-7 ml-2`}>
                       <TouchableOpacity style={tw`items-end justify-end`}>
                         <ModalComponentRelease
                           postId={post._id}

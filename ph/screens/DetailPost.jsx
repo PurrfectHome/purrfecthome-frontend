@@ -78,6 +78,7 @@ export default function DetailPost({ navigation, route }) {
   const [post, setPost] = useState("");
   const { id } = route.params;
   const { height, width } = useWindowDimensions();
+  const [moreInfo, setMoreInfo] = useState(false)
 
   const { data, error, loading, refetch } = useQuery(DETAIL_POST, {
     variables: { postId: id },
@@ -88,7 +89,6 @@ export default function DetailPost({ navigation, route }) {
   useEffect(() => {
     if (data) {
       setPost(data.postsById);
-      // console.log(data);
     }
   }, [data]);
 
@@ -116,7 +116,6 @@ export default function DetailPost({ navigation, route }) {
       }
     }
   };
-  console.log(d, l, e);
 
   return (
     <>
@@ -172,7 +171,7 @@ export default function DetailPost({ navigation, route }) {
                     </Text>
                     <View style={tw`flex-row gap-1 items-center`}>
                       <Text>{post?.breed}</Text>
-                      <ModalComponent data={post?.Information} />
+                      {/* <ModalComponent data={post?.Information} /> */}
                     </View>
                   </View>
                   <View style={{ borderWidth: 0.5, opacity: 0.2 }}></View>
@@ -243,16 +242,87 @@ export default function DetailPost({ navigation, route }) {
                     >
                       <Text>
                         {!more
-                          ? `${
-                              desc
-                                ? desc.length === 150
-                                  ? `${desc}...`
-                                  : desc
-                                : "Loading..."
-                            }`
+                          ? `${desc
+                            ? desc.length === 150
+                              ? `${desc}...`
+                              : desc
+                            : "Loading..."
+                          }`
                           : `${post?.description}`}
                       </Text>
                     </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={tw`mx-5`}>
+                  <View style={tw`gap-2`}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        !moreInfo ? setMoreInfo(true) : setMoreInfo(false);
+                      }}
+                      style={{}}>
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        About <Text style={{color: '#DC5B93'}}>{post?.breed}</Text> 
+                      </Text>
+                      {
+                        moreInfo ? '' :
+                      <View style={[tw`pb-5`]}>
+                        <Text style={{fontSize: 9, color: '#DC5B93'}}>{`(Press here to get more information about breed)`}</Text>
+                      </View>
+                      }
+                    </TouchableOpacity>
+                    {
+                      !moreInfo ? '' :
+                        <View style={[tw`mb-5`]}>
+                          <View style={{ gap: 3 }}>
+                            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                              {`Makanan ${post?.Information?.description?.makanan?.emoji}:`}
+                            </Text>
+                            <Text style={{ marginLeft: 20 }}>
+                              {post?.Information?.description?.makanan?.deskripsi}
+                            </Text>
+                          </View>
+                          <View style={{ gap: 3 }}>
+                            <Text
+                              style={{ fontSize: 15, fontWeight: "bold", marginTop: 15 }}
+                            >
+                              {`Kebersihan: ${post?.Information?.description?.kebersihan?.emoji}`}
+                            </Text>
+                            <Text style={{ marginLeft: 20 }}>
+                              {post?.Information?.description?.kebersihan?.deskripsi}
+                            </Text>
+                          </View>
+                          <View style={{ gap: 3 }}>
+                            <Text
+                              style={{ fontSize: 15, fontWeight: "bold", marginTop: 15 }}
+                            >
+                              {`Aktivitas Fisik ${post?.Information?.description?.aktivitas?.emoji}:`}
+                            </Text>
+                            <Text style={{ marginLeft: 20 }}>
+                              {post?.Information?.description?.aktivitas?.deskripsi}
+                            </Text>
+                          </View>
+                          <View style={{ gap: 3 }}>
+                            <Text
+                              style={{ fontSize: 15, fontWeight: "bold", marginTop: 15 }}
+                            >
+                              {`Kesehatan ${post?.Information?.description?.kesehatan?.emoji}:`}
+                            </Text>
+                            <Text style={{ marginLeft: 20 }}>
+                              {post?.Information?.description?.kesehatan?.deskripsi}
+                            </Text>
+                          </View>
+                          <View style={{ gap: 3 }}>
+                            <Text
+                              style={{ fontSize: 15, fontWeight: "bold", marginTop: 15 }}
+                            >
+                              {`Tempat Istirahat ${post?.Information?.description?.tempat_beristirahat?.emoji}:`}
+                            </Text>
+                            <Text style={{ marginLeft: 20 }}>
+                              {post?.Information?.description?.tempat_beristirahat?.deskripsi}
+                            </Text>
+                          </View>
+                        </View>
+                    }
                   </View>
                 </View>
               </View>

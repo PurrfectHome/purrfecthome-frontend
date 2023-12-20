@@ -91,10 +91,6 @@ export default function Profile({ navigation }) {
     }
   }, [isFocused, refetch])
 
-  if (!loading) {
-    console.log(data.usersProfile)
-  }
-
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground

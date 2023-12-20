@@ -74,7 +74,7 @@ export default function Inbox({ navigation }) {
             <View style={{ flexDirection: "row", flex: 4 }}>
               <Image
                 source={{
-                  uri: `https://www.gravatar.com/avatar/${c._id}?s=200&r=pg&d=robohash`,
+                  uri: `https://www.gravatar.com/avatar/${c?.user1?._id !== login ? login : c?.user2?._id}?s=200&r=pg&d=robohash`,
                 }}
                 style={{
                   height: 40,

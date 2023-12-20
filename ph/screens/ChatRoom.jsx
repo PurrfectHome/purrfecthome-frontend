@@ -105,12 +105,13 @@ export default function ChatRoom({ navigation, route }) {
   }, [d]);
 
   useEffect(() => {
-    const socket = io('https://46c8-2001-448a-3021-571f-1d86-c7c6-e227-3e6c.ngrok-free.app/')
+    const socket = io('https://2f6a-2001-448a-3021-571f-1d86-c7c6-e227-3e6c.ngrok-free.app/')
     setSocket(socket)
 
     socket.on('new-message', (payload) => {
-      setUserMsg([...userMsg, payload])
-      console.log(payload)
+      setUserMsg((prev) => {
+        return[...prev, payload]
+      })
     })
   }, [])
 
@@ -148,7 +149,7 @@ export default function ChatRoom({ navigation, route }) {
         >
           <Image
             source={{
-              uri: `https://www.gravatar.com/avatar/poto?s=200&r=pg&d=robohash`,
+              uri: `https://www.gravatar.com/avatar/${d?.convoById?.Conversation?.user1?._id !== login ? d?.convoById?.Conversation?.user1?._id : d?.convoById?.Conversation?.user2?._id}?s=200&r=pg&d=robohash`,
             }}
             style={{
               height: 40,
