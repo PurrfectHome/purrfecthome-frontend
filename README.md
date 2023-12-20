@@ -6,18 +6,18 @@ PurrfectHome-frontend is the frontend repository for the PurrfectHome applicatio
 
 ## Frontend ToDos
 
-- [ ] Wireframing
-- [ ] SettingUp Environment
-- [ ] Pages and Features
-    - [ ] Register
-    - [ ] Login
-    - [ ] Home
-    - [ ] Post
-    - [ ] Add Post
-    - [ ] Edit Post
-    - [ ] Delete Post
-    - [ ] Profile Page
-    - [ ] History
-    - [ ] Inbox
-    - [ ] Chat Room
-- [ ] Finalization
+- [x] Wireframing
+- [x] SettingUp Environment
+- [x] Pages and Features
+  - [x] Register
+  - [x] Login
+  - [x] Home
+  - [x] Post
+  - [x] Add Post
+  - [x] Edit Post
+  - [x] Delete Post
+  - [x] Profile Page
+  - [x] History
+  - [x] Inbox
+  - [x] Chat Room
+- [x] Finalization
